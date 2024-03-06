@@ -1,10 +1,17 @@
 import "./styles.css";
+import { Routes, Route } from "react-router-dom";
+import Tabs from "./components/tabs";
+import CreateFlashcards from "./pages/create-new";
+import MyFlashcards from "./pages/my-flashcards";
 
 export default function App() {
   return (
-    <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
+    <div>
+      <Tabs />
+      <Routes>
+        <Route path="/" element={<CreateFlashcards />} />
+        <Route path="/my-flashcards" element={<MyFlashcards />} />
+      </Routes>
     </div>
   );
 }
