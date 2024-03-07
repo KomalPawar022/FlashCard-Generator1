@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = [];
 const groupSlice = createSlice({
-  name: "group",
+  name: "cardGroup",
   initialState,
   reducers: {
     addGroup(state, action) {

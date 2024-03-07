@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import groupReducer from "./slices/group-slice";
-import cardReducer from "./slices/add-card-slice";
+import cardReducer from "./slices/card-slice";
 
 const store = configureStore({
   reducer: {
-    group: groupReducer,
-    addcard: cardReducer,
+    cardGroup: groupReducer,
+    card: cardReducer,
   },
 });
 export default store;

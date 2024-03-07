@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function GroupTile({ group, description }) {
   return (
     <>
@@ -10,7 +11,7 @@ export default function GroupTile({ group, description }) {
         </div>
         <div className="flex p-3">
           <button className="border border-lime-600 rounded-lg w-[15vw] h-[40px] text-lime-600">
-            View Cards
+            <Link to={`/view-card/:${group}`}>View Cards</Link>
           </button>
         </div>
       </div>

@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = [];
 const cardSlice = createSlice({
-  name: "addCard",
+  name: "card",
   initialState,
   reducers: {
     addCard(state, action) {
-      console.log("in addCard");
-      console.log(action.payload);
       state.push(action.payload);
+      console.log("card saved");
     },
+
     removeCard(state, action) {
       return state.filter((item) => item.term != action.payload);
     },
