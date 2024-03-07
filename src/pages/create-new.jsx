@@ -38,33 +38,29 @@ export default function CreateFlashcards() {
             <p className="mb-2">Add Description</p>
             <textarea
               type="text"
-              cols="80"
               onChange={(e) => setDescription(e.target.value)}
-              className="rounded-lg"
+              className="rounded-lg lg:w-[800px] h-[80px] md:w-[500px]"
             />
           </div>
           <div className="my-5 ml-5 items-end">
             <button
               className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
               onClick={handleSaveGroup}
+              type="submit"
             >
               Save Group
             </button>
           </div>
         </form>
       </div>
+      {<Card group={group} savedTerm={null} />}
       {card && card.length
-        ? card.map((item) =>
+        ? card.map((item, index) =>
             item.group === group ? (
-              <Card
-                group={group}
-                savedTerm={item.term}
-                savedDef={item.definition}
-              />
+              <Card key={index} group={group} savedTerm={item.term} />
             ) : null,
           )
         : null}
-      {<Card group={group} savedTerm={null} savedDef={null} />}
     </div>
   );
 }

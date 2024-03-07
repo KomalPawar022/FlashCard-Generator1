@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import Card from "../components/card";
+
 import { FaRegShareFromSquare } from "react-icons/fa6";
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import { IoPrint } from "react-icons/io5";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 export default function ViewCard() {
   let { group } = useParams();
@@ -15,18 +16,23 @@ export default function ViewCard() {
 
   return (
     <div>
-      {cardGroup?.map((item) => {
-        if (item.group === group) {
-          return (
-            <div className="flex flex-col text-bold justify-left items-start ml-8 mb-5">
-              <h1 className="font-bold text-2xl">{item.group}</h1>
-              <h3>{item.description}</h3>
-            </div>
-          );
-        }
-      })}
+      <div className="flex flex-row">
+        <Link to="/my-flashcards">
+          <FaArrowAltCircleLeft className="h-[30px] w-[30px] ml-5 cursor-pointer" />
+        </Link>
+        {cardGroup?.map((item) => {
+          if (item.group === group) {
+            return (
+              <div className="flex flex-col text-bold justify-left items-start ml-8 mb-5">
+                <h1 className="font-bold text-2xl">{item.group}</h1>
+                <h3>{item.description}</h3>
+              </div>
+            );
+          }
+        })}
+      </div>
       <div className="flex flex-row m-10 justify-self-center">
-        <div className="flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-8">
+        <div className="flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6">
           <ul className="text-center space-y-3 mb-3">
             <li className="font-semibold text-center">FlashCards</li>
             <hr className="h-[4px] color-lime-400 bg-lime-400" />
@@ -52,7 +58,17 @@ export default function ViewCard() {
         <div className="flex flex-col justify-center  shadow-lg bg-lime-200 gap-2 w-[700px] h-[400px] ml-5 rounded-xl">
           {card?.map((item) => {
             if (item.term === selectedTerm) {
-              return <p className="text-center p-3">{item.definition}</p>;
+              return (
+                <div className="flex justify-center items-center m-5">
+                  <div className="flex flex-row">
+                    <img
+                      src={URL.createObjectURL(item.img)}
+                      className="w-[20vw] h-[200px] rounded-lg"
+                    />
+                    <p className="text-center p-3">{item.definition}</p>
+                  </div>
+                </div>
+              );
             }
           })}
         </div>
