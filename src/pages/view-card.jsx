@@ -14,7 +14,7 @@ export default function ViewCard() {
   const { cardGroup } = useSelector((state) => state);
   const { card } = useSelector((state) => state);
   const [selectedTerm, setSelectedTerm] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(0);
 
   function handleOnClick(item) {
     setSelectedTerm(item.term);
