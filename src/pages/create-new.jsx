@@ -1,8 +1,13 @@
-import Card from "../components/card";
 import { useState } from "react";
 import { addGroup } from "../store/slices/group-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
+import { addCard } from "../store/slices/card-slice";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { FaRegEdit } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
+
+import Modal from "../components/modal";
 
 export default function CreateFlashcards() {
   const ref = useRef();
@@ -10,14 +15,40 @@ export default function CreateFlashcards() {
   const { card } = useSelector((state) => state);
   const [group, setGroup] = useState(null);
   const [description, setDescription] = useState(null);
+  const [term, setTerm] = useState(null);
+  const [def, setDef] = useState(null);
+  const [img, setImg] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  //const [counter, setCounter] = useState(1);
+
+  function onClose() {
+    setShowModal(false);
+  }
+
+  function handleSaveCard(e) {
+    e.preventDefault();
+    const cardData = {
+      //      id: counter,
+      term: term,
+      definition: def,
+      group: group,
+      img: img,
+    };
+    setTerm(null);
+    setDef(null);
+    setImg(null);
+    dispatch(addCard(cardData));
+  }
 
   function handleSaveGroup(e) {
     e.preventDefault();
+    handleSaveCard(e);
     const groupData = {
       group: group,
       description: description,
     };
     dispatch(addGroup(groupData));
+    setShowModal(true);
   }
 
   return (
@@ -42,25 +73,156 @@ export default function CreateFlashcards() {
               className="rounded-lg lg:w-[800px] h-[80px] md:w-[500px]"
             />
           </div>
-          <div className="my-5 ml-5 items-end">
+        </form>
+      </div>
+
+      {card && card.length
+        ? card.map((item) =>
+            item.group === group ? (
+              <div
+                key={item.id}
+                className="bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5"
+              >
+                <form>
+                  <div className="flex flex-row">
+                    <div className="m-5">
+                      <FaCircle
+                        className="h-[30px] w-[30px]"
+                        color="rgb(163 230 53)"
+                      />
+                      {item.id}
+                    </div>
+                    <div className="mt-5  inline-block">
+                      <p className="mb-2">Enter Term*</p>
+
+                      <input
+                        type="text"
+                        className="w-[20vw] h-[40px] rounded-lg"
+                        value={item.term}
+                        disabled
+                      />
+                    </div>
+                    <div className="mt-5 ml-5 inline-block">
+                      <p className="mb-2">Enter Definition*</p>
+                      <textArea
+                        type="text"
+                        className="w-[20vw] h-[40px] rounded-lg"
+                        disabled
+                      >
+                        {" "}
+                        {item.definition}
+                      </textArea>
+                    </div>
+                    <div className=" h-100 items-center">
+                      {item.img ? (
+                        <div className="m-2 ml-5 justify-center">
+                          <img
+                            src={URL.createObjectURL(item.img)}
+                            className="w-[15vw] h-[100px] rounded-lg "
+                          />
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="flex flex-col ml-5 space-y-3 m-5">
+                      <button>
+                        <RiDeleteBin5Line className="h-[30px] w-[30px]" />
+                      </button>
+                      <button>
+                        <FaRegEdit className="h-[30px] w-[30px]" />
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            ) : null,
+          )
+        : null}
+      {/* ------------------------------ */}
+      <div className="bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5">
+        <form>
+          <div className="flex flex-row">
+            <div className="m-5">
+              <FaCircle
+                className="h-[30px] w-[30px]"
+                color="rgb(163 230 53)"
+                visible={true}
+              />
+            </div>
+            <div className="mt-5  inline-block">
+              <p className="mb-2">Enter Term*</p>
+              {console.log("term:=" + term)}
+              <input
+                type="text"
+                className="w-[20vw] h-[40px] rounded-lg"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mt-5 ml-5 inline-block">
+              <p className="mb-2">Enter Definition*</p>
+              {console.log("def:-" + def)}
+              <textArea
+                type="text"
+                className="w-[20vw] h-[40px] rounded-lg"
+                onChange={(e) => setDef(e.target.value)}
+                required
+              >
+                {" "}
+                {def}
+              </textArea>
+            </div>
+            <div className=" h-100 items-center">
+              {img ? (
+                <div className="mt-5 ml-5 justify-center">
+                  <img
+                    src={URL.createObjectURL(img)}
+                    className="w-[15vw] h-[100px] rounded-lg"
+                  />
+                </div>
+              ) : (
+                <div className="mt-12 ml-5 inline-block">
+                  <input
+                    className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                    type="file"
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(e) => setImg(e.target.files[0])}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="my-3 ml-5">
             <button
-              className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
-              onClick={handleSaveGroup}
+              className="text-lime-400"
+              onClick={handleSaveCard}
               type="submit"
             >
-              Save Group
+              +Add More
             </button>
           </div>
         </form>
       </div>
-      {<Card group={group} savedTerm={null} />}
-      {card && card.length
-        ? card.map((item, index) =>
-            item.group === group ? (
-              <Card key={index} group={group} savedTerm={item.term} />
-            ) : null,
-          )
-        : null}
+
+      {/* ------------------------------------ */}
+      <div className="my-5 ml-5 items-end">
+        <button
+          className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+          onClick={handleSaveGroup}
+          type="submit"
+        >
+          Create
+        </button>
+        {showModal && (
+          <Modal
+            onClose={onClose}
+            body={<div>Card Created</div>}
+            header={<div>null</div>}
+            footer={<div>null</div>}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -7,7 +7,6 @@ const cardSlice = createSlice({
   reducers: {
     addCard(state, action) {
       state.push(action.payload);
-      console.log("card saved");
     },
 
     removeCard(state, action) {
