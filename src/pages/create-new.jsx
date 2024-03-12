@@ -64,7 +64,7 @@ export default function CreateFlashcards() {
     const groupData = {
       group: group,
       description: description,
-      noOfCards: counter,
+      noOfCards: counter + 1,
     };
     dispatch(addGroup(groupData));
     setShowModal(true);
@@ -186,6 +186,7 @@ export default function CreateFlashcards() {
                 className="w-[20vw] h-[40px] rounded-lg"
                 onChange={(e) => setDef(e.target.value)}
                 required
+                value={def}
               >
                 {def}
               </textArea>

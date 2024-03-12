@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { FiArrowRightCircle } from "react-icons/fi";
 import { FaRegShareFromSquare } from "react-icons/fa6";
@@ -12,13 +12,65 @@ export default function ViewCard() {
   let { group } = useParams();
   group = group.substring(1, group.length);
   const { cardGroup } = useSelector((state) => state);
+  const [groupName, setGroupName] = useState(null);
+  const [groupDesc, setGroupDesc] = useState(null);
+  const [noOfCards, setNoOfCards] = useState(0);
   const { card } = useSelector((state) => state);
-  const [selectedTerm, setSelectedTerm] = useState(null);
-  const [selectedId, setSelectedId] = useState(0);
+  //const [selectedTerm, setSelectedTerm] = useState(null);
+  const [selectedId, setSelectedId] = useState(1);
+  const [cardData, setCardData] = useState([]);
 
   function handleOnClick(item) {
-    setSelectedTerm(item.term);
     setSelectedId(item.id);
+    //setSelectedTerm(item.term);
+  }
+
+  useEffect(() => {
+    if (cardGroup.length > 0) {
+      console.log(true);
+      cardGroup.map((item) => {
+        if (item.group === group) {
+          console.log(item.description);
+          console.log(true);
+          setGroupName(item.group);
+          setGroupDesc(item.description);
+          setNoOfCards(item.noOfCards);
+        }
+      });
+    }
+    console.log(groupName, groupDesc, noOfCards);
+  }, []);
+  useEffect(() => {
+    let arr = [];
+    if (card.length > 0) {
+      card.map((item) => {
+        if (item.group === groupName) {
+          console.log(true);
+          console.log("item", item.term);
+          arr.push(item);
+        }
+      });
+      setCardData(arr);
+      console.log(cardData);
+    }
+
+    console.log("cards", cardData.length);
+  }, [groupName]);
+
+  function handleLeftClick() {
+    if (selectedId === 1) {
+      setSelectedId(noOfCards);
+    } else {
+      setSelectedId(selectedId - 1);
+    }
+  }
+
+  function handleRightClick() {
+    if (selectedId === noOfCards) {
+      setSelectedId(1);
+    } else {
+      setSelectedId(selectedId + 1);
+    }
   }
 
   return (
@@ -27,49 +79,39 @@ export default function ViewCard() {
         <Link to="/my-flashcards">
           <FaArrowAltCircleLeft className="h-[30px] w-[30px] ml-5 cursor-pointer" />
         </Link>
-        {cardGroup?.map((item, index) => {
-          if (item.group === group) {
-            return (
-              <div
-                key={index}
-                className="flex flex-col text-bold justify-left items-start ml-8 mb-5"
-              >
-                <h1 className="font-bold text-2xl">{item.group}</h1>
-                <h3>{item.description}</h3>
-              </div>
-            );
-          }
-        })}
+
+        <div className="flex flex-col text-bold justify-left items-start ml-8 mb-5">
+          <h1 className="font-bold text-2xl">{groupName}</h1>
+          <h3>{groupDesc}</h3>
+        </div>
       </div>
       <div className="flex flex-row m-10 justify-self-center">
         <div className="flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6">
           <ul className="text-center space-y-3 mb-3">
             <li className="font-semibold text-center">FlashCards</li>
             <hr className="h-[4px] color-lime-400 bg-lime-400" />
-            {console.log(card)}
-            {card?.map((item) => {
-              if (item.group === group) {
-                return (
-                  <li
-                    key={item.id}
-                    className={
-                      selectedTerm === item.term
-                        ? "font-bold text-lime-400 cursor-pointer"
-                        : "font-semibold hover:text-lime-400 cursor-pointer"
-                    }
-                    onClick={() => handleOnClick(item)}
-                  >
-                    {item.term}
-                  </li>
-                );
-              }
+            {console.log(cardData)}
+            {cardData?.map((item) => {
+              return (
+                <li
+                  key={item.id}
+                  className={
+                    selectedId === item.id
+                      ? "font-bold text-lime-400 cursor-pointer"
+                      : "font-semibold hover:text-lime-400 cursor-pointer"
+                  }
+                  onClick={() => handleOnClick(item)}
+                >
+                  {item.term}
+                </li>
+              );
             })}
           </ul>
         </div>
         <div className="flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center  shadow-lg bg-lime-200 gap-2 w-[700px] h-[400px] ml-5 rounded-xl">
-            {card?.map((item) => {
-              if (item.term === selectedTerm) {
+            {cardData?.map((item) => {
+              if (item.id === selectedId) {
                 return (
                   <div
                     key={item.id}
@@ -93,12 +135,16 @@ export default function ViewCard() {
           <div className="flex flex-row justify-center items-center mt-5">
             <FiArrowLeftCircle
               color="rgb(163 230 53)"
-              className="mr-3 h-[20px] w-[20px]"
+              className="mr-3 h-[20px] w-[20px] cursor-pointer"
+              onClick={handleLeftClick}
             />
-            <h3>{selectedId}</h3>
+            <h3>
+              {selectedId}/{noOfCards}
+            </h3>
             <FiArrowRightCircle
               color="rgb(163 230 53)"
-              className="ml-3 h-[20px] w-[20px]"
+              className="ml-3 h-[20px] w-[20px] cursor-pointer"
+              onClick={handleRightClick}
             />
           </div>
         </div>
