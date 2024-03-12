@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addGroup } from "../store/slices/group-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
@@ -15,8 +15,8 @@ export default function CreateFlashcards() {
   const { card } = useSelector((state) => state);
   const [group, setGroup] = useState(null);
   const [description, setDescription] = useState(null);
-  const [term, setTerm] = useState(null);
-  const [def, setDef] = useState(null);
+  const [term, setTerm] = useState("");
+  const [def, setDef] = useState("");
   const [img, setImg] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [counter, setCounter] = useState(1);
@@ -27,19 +27,32 @@ export default function CreateFlashcards() {
 
   function handleSaveCard(e) {
     e.preventDefault();
-    const cardData = {
-      id: counter,
-      term: term,
-      definition: def,
-      group: group,
-      img: img,
-    };
-    setTerm(null);
-    setDef(null);
-    setImg(null);
-    setCounter(counter + 1);
-    dispatch(addCard(cardData));
+    console.log(term);
+    if (term != null && term.length > 0) {
+      const cardData = {
+        id: counter,
+        term: term,
+        definition: def,
+        group: group,
+        img: img,
+      };
+      setTerm("");
+      console.log("term", term);
+      setDef("");
+      console.log("def", def);
+      setImg(null);
+      setCounter(counter + 1);
+      dispatch(addCard(cardData));
+    }
+    console.log("term", term);
+    console.log("counter", counter);
   }
+  useEffect(() => {
+    console.log("term after update:", term);
+  }, [term]);
+  useEffect(() => {
+    console.log("def after update:", def);
+  }, [def]);
 
   function handleSaveGroup(e) {
     e.preventDefault();
@@ -152,7 +165,7 @@ export default function CreateFlashcards() {
             </div>
             <div className="mt-5  inline-block">
               <p className="mb-2">Enter Term*</p>
-              {console.log("term:=" + term)}
+
               <input
                 type="text"
                 className="w-[20vw] h-[40px] rounded-lg"
@@ -163,7 +176,7 @@ export default function CreateFlashcards() {
             </div>
             <div className="mt-5 ml-5 inline-block">
               <p className="mb-2">Enter Definition*</p>
-              {console.log("def:-" + def)}
+
               <textArea
                 type="text"
                 className="w-[20vw] h-[40px] rounded-lg"
