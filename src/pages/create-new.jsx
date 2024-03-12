@@ -19,7 +19,7 @@ export default function CreateFlashcards() {
   const [def, setDef] = useState("");
   const [img, setImg] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [counter, setCounter] = useState(1);
+  const [counter, setCounter] = useState(0);
 
   function onClose() {
     setShowModal(false);
@@ -28,9 +28,13 @@ export default function CreateFlashcards() {
   function handleSaveCard(e) {
     e.preventDefault();
     console.log(term);
+    console.log(term != null);
+    console.log(term.length > 0);
     if (term != null && term.length > 0) {
+      setCounter(counter + 1);
+
       const cardData = {
-        id: counter,
+        id: counter + 1,
         term: term,
         definition: def,
         group: group,
@@ -41,7 +45,7 @@ export default function CreateFlashcards() {
       setDef("");
       console.log("def", def);
       setImg(null);
-      setCounter(counter + 1);
+
       dispatch(addCard(cardData));
     }
     console.log("term", term);
