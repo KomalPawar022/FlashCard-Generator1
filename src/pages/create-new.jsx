@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { addGroup } from "../store/slices/group-slice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addCard, removeCard } from "../store/slices/card-slice";
+import { addCard, removeCard, adjustIds } from "../store/slices/card-slice";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
@@ -19,6 +19,7 @@ export default function CreateFlashcards() {
   const [img, setImg] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [counter, setCounter] = useState(1);
+  const [hasDeleted, setHasDeleted] = useState(false);
 
   function onClose() {
     setShowModal(false);
@@ -28,6 +29,7 @@ export default function CreateFlashcards() {
     e.preventDefault();
     dispatch(removeCard(item.term));
     setCounter(counter - 1);
+    setHasDeleted(true);
   }
 
   function handleSaveCard(e) {
@@ -78,6 +80,10 @@ export default function CreateFlashcards() {
       noOfCards: noOfcards,
     };
     dispatch(addGroup(groupData));
+    if (hasDeleted) {
+      dispatch(adjustIds(group));
+    }
+
     setShowModal(true);
   }
 

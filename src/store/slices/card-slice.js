@@ -12,7 +12,16 @@ const cardSlice = createSlice({
     removeCard(state, action) {
       return state.filter((item) => item.term != action.payload);
     },
+    adjustIds(state, action) {
+      let index = 1;
+      state.map((item) => {
+        if (item.group === action.payload) {
+          item.id = index;
+          index++;
+        }
+      });
+    },
   },
 });
-export const { addCard, removeCard } = cardSlice.actions;
+export const { addCard, removeCard, adjustIds } = cardSlice.actions;
 export default cardSlice.reducer;
