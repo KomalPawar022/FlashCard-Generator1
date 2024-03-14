@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addGroup, changeNoOfCards } from "../store/slices/group-slice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -30,6 +30,23 @@ export default function CreateFlashcards() {
   const [hasDeleted, setHasDeleted] = useState(false);
   const [groupExists, setGroupExists] = useState(false);
   const [editCardId, setEditCardId] = useState(0);
+  const [duplicateTerm, setDuplicateTerm] = useState(false);
+
+  useEffect(() => {
+    if (card.length > 0) {
+      card.map((item) => {
+        if (item.term === term) {
+          console.log("Term Aready Exixts");
+          setDuplicateTerm(true);
+          setTerm("");
+        } else {
+          setTimeout(() => {
+            setDuplicateTerm(false);
+          }, 4000);
+        }
+      });
+    }
+  }, [term]);
 
   function handleEditCard(e, item) {
     e.preventDefault();
@@ -124,6 +141,9 @@ export default function CreateFlashcards() {
 
   return (
     <div className="flex flex-col justify-center items-center">
+      <div className="text-xl font-bold animate-pulse text-red-800">
+        {duplicateTerm ? "Term Already Exists" : null}
+      </div>
       <div className="bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg">
         <form>
           <div className="my-5 ml-5 ">
@@ -192,17 +212,31 @@ export default function CreateFlashcards() {
 
                       <input
                         type="text"
+                        placeholder={
+                          duplicateTerm ? "Term already exists" : null
+                        }
                         className="w-[20vw] h-[40px] rounded-lg"
                         value={item.term}
                         disabled={editCardId === item.id ? false : true}
-                        onChange={(e) =>
-                          dispatch(
-                            editTerm({
-                              prevTerm: item.term,
-                              newTerm: e.target.value,
-                            }),
-                          )
-                        }
+                        onChange={(e) => {
+                          let flag = false;
+                          if (card.length > 0) {
+                            card.map((item) => {
+                              if (item.term === e.target.value) {
+                                flag = true;
+                                setDuplicateTerm(true);
+                              }
+                            });
+                          }
+                          if (!flag) {
+                            dispatch(
+                              editTerm({
+                                prevTerm: item.term,
+                                newTerm: e.target.value,
+                              }),
+                            );
+                          }
+                        }}
                       />
                     </div>
                     <div className="mt-5 ml-5 inline-block">
@@ -266,6 +300,7 @@ export default function CreateFlashcards() {
                 type="text"
                 className="w-[20vw] h-[40px] rounded-lg"
                 value={term}
+                // placeholder={duplicateTerm ? "Term already exists" : null}
                 onChange={(e) => setTerm(e.target.value)}
                 required
               />
