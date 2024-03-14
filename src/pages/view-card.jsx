@@ -75,18 +75,18 @@ export default function ViewCard() {
 
         <div className="flex flex-col text-bold justify-left items-start ml-8 mb-5">
           <h1 className="font-bold text-2xl">{groupName}</h1>
-          <div className="flex flex-row">
-            <h3>{groupDesc}</h3>
-            <div className=" h-100 items-center">
-              {groupImg ? (
-                <div className="mt-3 ml-5 justify-center">
-                  <img
-                    src={URL.createObjectURL(groupImg)}
-                    className="w-[15vw] h-[100px] rounded-lg"
-                  />
-                </div>
-              ) : null}
+          <div className="flex flex-row items-center justify-center">
+            <div className="w-[80vw]">
+              <h3 className="break-all">{groupDesc}</h3>
             </div>
+            {groupImg ? (
+              <div className="mt-3 ml-2 justify-center w-[200px] h-[100px] mr-5">
+                <img
+                  src={URL.createObjectURL(groupImg)}
+                  className="w-[200px] h-[100px] rounded-lg mr-3"
+                />
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@ export default function ViewCard() {
               onClick={handleLeftClick}
             />
             <h3>
-              {selectedId}/{noOfCards}
+              {noOfCards == 0 ? 0 : selectedId}/{noOfCards}
             </h3>
             <FiArrowRightCircle
               color="rgb(163 230 53)"

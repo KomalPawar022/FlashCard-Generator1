@@ -15,7 +15,9 @@ export default function GroupTile({ group, description, noOfCards, groupImg }) {
           <h1 className="font-bold text-2xl">{group}</h1>
         </div>
         <div className="flex p-1 flex-col space-y-1 justify-center items-center">
-          <p className="w-full h-[80px] text-center">{description}</p>
+          <p className="w-full h-[70px] text-center break-all overflow-ellipsis overflow-hidden">
+            {description}
+          </p>
           <p>
             {noOfCards} {noOfCards === 1 ? "Card" : "Cards"}
           </p>
