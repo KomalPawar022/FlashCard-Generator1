@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { addGroup } from "../store/slices/group-slice";
+import { useState } from "react";
+import { addGroup, changeNoOfCards } from "../store/slices/group-slice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addCard, removeCard, adjustIds } from "../store/slices/card-slice";
@@ -11,6 +11,7 @@ import Modal from "../components/modal";
 
 export default function CreateFlashcards() {
   const dispatch = useDispatch();
+  const { cardGroup } = useSelector((state) => state);
   const { card } = useSelector((state) => state);
   const [group, setGroup] = useState(null);
   const [description, setDescription] = useState(null);
@@ -21,6 +22,25 @@ export default function CreateFlashcards() {
   const [showModal, setShowModal] = useState(false);
   const [counter, setCounter] = useState(1);
   const [hasDeleted, setHasDeleted] = useState(false);
+  const [groupExists, setGroupExists] = useState(false);
+
+  function handleGroupName(name) {
+    setGroup(name);
+    console.log(name);
+    if (cardGroup) {
+      cardGroup.map((item) => {
+        if (item.group === name) {
+          console.log(item);
+          setDescription(item.description);
+          setGroupImg(item.groupImg);
+          setGroupExists(true);
+          console.log(item.noOfCards);
+          setCounter(item.noOfCards + 1);
+          console.log("group exists");
+        }
+      });
+    }
+  }
 
   function onClose() {
     setShowModal(false);
@@ -65,13 +85,24 @@ export default function CreateFlashcards() {
     } else {
       noOfcards = counter - 1;
     }
-    const groupData = {
-      group: group,
-      description: description,
-      noOfCards: noOfcards,
-      groupImg: groupImg,
-    };
-    dispatch(addGroup(groupData));
+
+    if (!groupExists) {
+      const groupData = {
+        group: group,
+        description: description,
+        noOfCards: noOfcards,
+        groupImg: groupImg,
+      };
+      dispatch(addGroup(groupData));
+    } else {
+      const groupData = {
+        group: group,
+        noOfCards: noOfcards,
+      };
+      console.log("groupData", groupData);
+      dispatch(changeNoOfCards(groupData));
+      dispatch(adjustIds(group));
+    }
     if (hasDeleted) {
       dispatch(adjustIds(group));
     }
@@ -89,7 +120,7 @@ export default function CreateFlashcards() {
                 <p className="mb-2">Create Group*</p>
                 <input
                   type="text"
-                  onChange={(e) => setGroup(e.target.value)}
+                  onChange={(e) => handleGroupName(e.target.value)}
                   className="w-[20vw] h-[40px] rounded-lg"
                   required
                 />
@@ -120,6 +151,7 @@ export default function CreateFlashcards() {
             <p className="mb-2">Add Description</p>
             <textarea
               type="text"
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="rounded-lg lg:w-[800px] h-[80px] md:w-[500px]"
             />

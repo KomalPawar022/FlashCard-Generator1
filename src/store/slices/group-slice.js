@@ -11,7 +11,14 @@ const groupSlice = createSlice({
     removeGroup(state, action) {
       return state.filter((item) => item.group != action.payload);
     },
+    changeNoOfCards(state, action) {
+      state.map((item) => {
+        if (item.group === action.payload.group) {
+          item.noOfCards = action.payload.noOfCards;
+        }
+      });
+    },
   },
 });
-export const { addGroup, removeGroup } = groupSlice.actions;
+export const { addGroup, removeGroup, changeNoOfCards } = groupSlice.actions;
 export default groupSlice.reducer;

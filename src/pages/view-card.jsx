@@ -30,6 +30,7 @@ export default function ViewCard() {
     if (cardGroup.length > 0) {
       cardGroup.map((item) => {
         if (item.group === group) {
+          console.log(item);
           setGroupName(item.group);
           setGroupDesc(item.description);
           setNoOfCards(item.noOfCards);
