@@ -21,16 +21,24 @@ const cardSlice = createSlice({
         }
       });
     },
-    editCard(state, action) {
+    editTerm(state, action) {
       state.map((item) => {
         if (item.term === action.payload.prevTerm) {
           item.term = action.payload.newTerm;
-          item.definition = action.payload.newDefinition;
+        }
+      });
+      console.log("editedCard", state);
+    },
+    editDefinition(state, action) {
+      state.map((item) => {
+        if (item.term === action.payload.term) {
+          item.definition = action.payload.definition;
         }
       });
       console.log("editedCard", state);
     },
   },
 });
-export const { addCard, removeCard, adjustIds, editCard } = cardSlice.actions;
+export const { addCard, removeCard, adjustIds, editTerm, editDefinition } =
+  cardSlice.actions;
 export default cardSlice.reducer;

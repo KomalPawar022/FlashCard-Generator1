@@ -6,7 +6,8 @@ import {
   addCard,
   removeCard,
   adjustIds,
-  editCard,
+  editTerm,
+  editDefinition,
 } from "../store/slices/card-slice";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
@@ -28,20 +29,13 @@ export default function CreateFlashcards() {
   const [counter, setCounter] = useState(1);
   const [hasDeleted, setHasDeleted] = useState(false);
   const [groupExists, setGroupExists] = useState(false);
-  const [editCardTerm, setEditCardTerm] = useState(null);
+  const [editCardId, setEditCardId] = useState(0);
 
   function handleEditCard(e, item) {
     e.preventDefault();
     console.log(item);
 
-    setEditCardTerm(item.term);
-
-    // const editCardData = {
-    //   prevTerm: item.term,
-    //   newTerm: term,
-    //   newDefinition: def,
-    // };
-    // dispatch(editCard(editCardData));
+    setEditCardId(item.id);
   }
 
   function handleGroupName(name) {
@@ -200,8 +194,15 @@ export default function CreateFlashcards() {
                         type="text"
                         className="w-[20vw] h-[40px] rounded-lg"
                         value={item.term}
-                        disabled={editCardTerm === item.term ? false : true}
-                        onChange={(e) => setTerm(e.target.value)}
+                        disabled={editCardId === item.id ? false : true}
+                        onChange={(e) =>
+                          dispatch(
+                            editTerm({
+                              prevTerm: item.term,
+                              newTerm: e.target.value,
+                            }),
+                          )
+                        }
                       />
                     </div>
                     <div className="mt-5 ml-5 inline-block">
@@ -209,8 +210,15 @@ export default function CreateFlashcards() {
                       <textArea
                         type="text"
                         className="w-[20vw] h-[40px] rounded-lg"
-                        disabled={editCardTerm === item.term ? false : true}
-                        onChange={(e) => setDef(e.target.value)}
+                        disabled={editCardId === item.id ? false : true}
+                        onChange={(e) =>
+                          dispatch(
+                            editDefinition({
+                              term: item.term,
+                              definition: e.target.value,
+                            }),
+                          )
+                        }
                       >
                         {item.definition}
                       </textArea>
