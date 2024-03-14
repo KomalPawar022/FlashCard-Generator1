@@ -2,7 +2,12 @@ import { useState } from "react";
 import { addGroup, changeNoOfCards } from "../store/slices/group-slice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addCard, removeCard, adjustIds } from "../store/slices/card-slice";
+import {
+  addCard,
+  removeCard,
+  adjustIds,
+  editCard,
+} from "../store/slices/card-slice";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
@@ -23,20 +28,33 @@ export default function CreateFlashcards() {
   const [counter, setCounter] = useState(1);
   const [hasDeleted, setHasDeleted] = useState(false);
   const [groupExists, setGroupExists] = useState(false);
+  const [editCardTerm, setEditCardTerm] = useState(null);
+
+  function handleEditCard(e, item) {
+    e.preventDefault();
+    console.log(item);
+
+    setEditCardTerm(item.term);
+
+    // const editCardData = {
+    //   prevTerm: item.term,
+    //   newTerm: term,
+    //   newDefinition: def,
+    // };
+    // dispatch(editCard(editCardData));
+  }
 
   function handleGroupName(name) {
     setGroup(name);
-    console.log(name);
+
     if (cardGroup) {
       cardGroup.map((item) => {
         if (item.group === name) {
-          console.log(item);
           setDescription(item.description);
           setGroupImg(item.groupImg);
           setGroupExists(true);
-          console.log(item.noOfCards);
+
           setCounter(item.noOfCards + 1);
-          console.log("group exists");
         }
       });
     }
@@ -182,7 +200,8 @@ export default function CreateFlashcards() {
                         type="text"
                         className="w-[20vw] h-[40px] rounded-lg"
                         value={item.term}
-                        disabled
+                        disabled={editCardTerm === item.term ? false : true}
+                        onChange={(e) => setTerm(e.target.value)}
                       />
                     </div>
                     <div className="mt-5 ml-5 inline-block">
@@ -190,7 +209,8 @@ export default function CreateFlashcards() {
                       <textArea
                         type="text"
                         className="w-[20vw] h-[40px] rounded-lg"
-                        disabled
+                        disabled={editCardTerm === item.term ? false : true}
+                        onChange={(e) => setDef(e.target.value)}
                       >
                         {item.definition}
                       </textArea>
@@ -210,7 +230,7 @@ export default function CreateFlashcards() {
                       <button onClick={(e) => handleDeleteCard(e, item)}>
                         <RiDeleteBin5Line className="h-[30px] w-[30px]" />
                       </button>
-                      <button>
+                      <button onClick={(e) => handleEditCard(e, item)}>
                         <FaRegEdit className="h-[30px] w-[30px]" />
                       </button>
                     </div>
