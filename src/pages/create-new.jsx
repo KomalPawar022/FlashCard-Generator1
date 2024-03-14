@@ -8,6 +8,7 @@ import {
   adjustIds,
   editTerm,
   editDefinition,
+  editImg,
 } from "../store/slices/card-slice";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
@@ -291,14 +292,34 @@ export default function CreateFlashcards() {
                       </textArea>
                     </div>
                     <div className=" h-100 items-center">
-                      {item.img ? (
-                        <div className="m-2 ml-5 justify-center">
-                          <img
-                            src={URL.createObjectURL(item.img)}
-                            className="w-[15vw] h-[100px] rounded-lg "
-                          />
-                        </div>
-                      ) : null}
+                      <div className="space-y-2 flex flex-col">
+                        {item.img ? (
+                          <div className="m-2 ml-5 justify-center">
+                            <img
+                              src={URL.createObjectURL(item.img)}
+                              className="w-[15vw] h-[100px] rounded-lg "
+                            />
+                          </div>
+                        ) : null}
+
+                        {editCardId === item.id ? (
+                          <div className="mt-5 ml-5 inline-block">
+                            <input
+                              className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                              type="file"
+                              accept=".jpg, .jpeg, .png"
+                              onChange={(e) =>
+                                dispatch(
+                                  editImg({
+                                    term: item.term,
+                                    img: e.target.files[0],
+                                  }),
+                                )
+                              }
+                            />
+                          </div>
+                        ) : null}
+                      </div>
                     </div>
 
                     <div className="flex flex-col ml-5 space-y-3 m-5">

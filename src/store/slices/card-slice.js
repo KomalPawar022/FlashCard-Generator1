@@ -27,7 +27,6 @@ const cardSlice = createSlice({
           item.term = action.payload.newTerm;
         }
       });
-      console.log("editedCard", state);
     },
     editDefinition(state, action) {
       state.map((item) => {
@@ -35,10 +34,22 @@ const cardSlice = createSlice({
           item.definition = action.payload.definition;
         }
       });
-      console.log("editedCard", state);
+    },
+    editImg(state, action) {
+      state.map((item) => {
+        if (item.term === action.payload.term) {
+          item.img = action.payload.img;
+        }
+      });
     },
   },
 });
-export const { addCard, removeCard, adjustIds, editTerm, editDefinition } =
-  cardSlice.actions;
+export const {
+  addCard,
+  removeCard,
+  adjustIds,
+  editTerm,
+  editDefinition,
+  editImg,
+} = cardSlice.actions;
 export default cardSlice.reducer;
