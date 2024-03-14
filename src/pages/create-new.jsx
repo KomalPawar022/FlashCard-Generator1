@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { addGroup } from "../store/slices/group-slice";
 import { useDispatch, useSelector } from "react-redux";
-import { useRef } from "react";
-import { addCard } from "../store/slices/card-slice";
+
+import { addCard, removeCard } from "../store/slices/card-slice";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
@@ -10,7 +10,6 @@ import { FaCircle } from "react-icons/fa";
 import Modal from "../components/modal";
 
 export default function CreateFlashcards() {
-  const ref = useRef();
   const dispatch = useDispatch();
   const { card } = useSelector((state) => state);
   const [group, setGroup] = useState(null);
@@ -19,59 +18,71 @@ export default function CreateFlashcards() {
   const [def, setDef] = useState("");
   const [img, setImg] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(1);
 
   function onClose() {
     setShowModal(false);
   }
 
+  function handleDeleteCard(e, item) {
+    e.preventDefault();
+    dispatch(removeCard(item.term));
+    setCounter(counter - 1);
+  }
+
   function handleSaveCard(e) {
     e.preventDefault();
-    console.log(term);
-    console.log(term != null);
-    console.log(term.length > 0);
-    if (term != null && term.length > 0) {
-      setCounter(counter + 1);
 
+    if (term != null && term.length > 0) {
       const cardData = {
-        id: counter + 1,
+        id: counter,
         term: term,
         definition: def,
         group: group,
         img: img,
       };
       setTerm("");
-      console.log("term", term);
-      setDef("");
-      console.log("def", def);
-      setImg(null);
 
+      setDef("");
+
+      setImg(null);
+      setCounter(counter + 1);
       dispatch(addCard(cardData));
+      console.log("in if");
     }
-    console.log("term", term);
+
     console.log("counter", counter);
   }
+
   useEffect(() => {
-    console.log("term after update:", term);
-  }, [term]);
-  useEffect(() => {
-    console.log("def after update:", def);
-  }, [def]);
+    console.log("counter changed", counter);
+  }, [counter]);
 
   function handleSaveGroup(e) {
     e.preventDefault();
+
     handleSaveCard(e);
+    console.log("term", term.length);
+    let noOfcards;
+    if (term != null && term.length > 0) {
+      noOfcards = counter;
+
+      console.log("noOfcards in if", noOfcards);
+    } else {
+      noOfcards = counter - 1;
+      console.log("noOfcards in else", noOfcards);
+    }
     const groupData = {
       group: group,
       description: description,
-      noOfCards: counter + 1,
+      noOfCards: noOfcards,
     };
     dispatch(addGroup(groupData));
     setShowModal(true);
   }
 
   return (
-    <div className="flex flex-col justify-center items-center" ref={ref}>
+    <div className="flex flex-col justify-center items-center">
       <div className="bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg">
         <form>
           <div className="my-5 ml-5">
@@ -143,7 +154,7 @@ export default function CreateFlashcards() {
                     </div>
 
                     <div className="flex flex-col ml-5 space-y-3 m-5">
-                      <button>
+                      <button onClick={(e) => handleDeleteCard(e, item)}>
                         <RiDeleteBin5Line className="h-[30px] w-[30px]" />
                       </button>
                       <button>

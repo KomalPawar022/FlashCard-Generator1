@@ -30,31 +30,24 @@ export default function ViewCard() {
       console.log(true);
       cardGroup.map((item) => {
         if (item.group === group) {
-          console.log(item.description);
-          console.log(true);
           setGroupName(item.group);
           setGroupDesc(item.description);
           setNoOfCards(item.noOfCards);
         }
       });
     }
-    console.log(groupName, groupDesc, noOfCards);
   }, []);
   useEffect(() => {
     let arr = [];
     if (card.length > 0) {
       card.map((item) => {
         if (item.group === groupName) {
-          console.log(true);
-          console.log("item", item.term);
           arr.push(item);
         }
       });
       setCardData(arr);
       console.log(cardData);
     }
-
-    console.log("cards", cardData.length);
   }, [groupName]);
 
   function handleLeftClick() {
@@ -90,7 +83,7 @@ export default function ViewCard() {
           <ul className="text-center space-y-3 mb-3">
             <li className="font-semibold text-center">FlashCards</li>
             <hr className="h-[4px] color-lime-400 bg-lime-400" />
-            {console.log(cardData)}
+
             {cardData?.map((item) => {
               return (
                 <li
