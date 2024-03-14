@@ -14,6 +14,7 @@ export default function CreateFlashcards() {
   const { card } = useSelector((state) => state);
   const [group, setGroup] = useState(null);
   const [description, setDescription] = useState(null);
+  const [groupImg, setGroupImg] = useState(null);
   const [term, setTerm] = useState("");
   const [def, setDef] = useState("");
   const [img, setImg] = useState(null);
@@ -50,15 +51,8 @@ export default function CreateFlashcards() {
       setImg(null);
       setCounter(counter + 1);
       dispatch(addCard(cardData));
-      console.log("in if");
     }
-
-    console.log("counter", counter);
   }
-
-  useEffect(() => {
-    console.log("counter changed", counter);
-  }, [counter]);
 
   function handleSaveGroup(e) {
     e.preventDefault();
@@ -68,16 +62,14 @@ export default function CreateFlashcards() {
     let noOfcards;
     if (term != null && term.length > 0) {
       noOfcards = counter;
-
-      console.log("noOfcards in if", noOfcards);
     } else {
       noOfcards = counter - 1;
-      console.log("noOfcards in else", noOfcards);
     }
     const groupData = {
       group: group,
       description: description,
       noOfCards: noOfcards,
+      groupImg: groupImg,
     };
     dispatch(addGroup(groupData));
     if (hasDeleted) {
@@ -91,15 +83,38 @@ export default function CreateFlashcards() {
     <div className="flex flex-col justify-center items-center">
       <div className="bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg">
         <form>
-          <div className="my-5 ml-5">
-            <p className="mb-2">Create Group*</p>
-            <input
-              type="text"
-              onChange={(e) => setGroup(e.target.value)}
-              className="w-[20vw] h-[40px] rounded-lg"
-              required
-            />
-            <input type="file" className="ml-2 bg-white-100" />
+          <div className="my-5 ml-5 ">
+            <div className="flex flex-row">
+              <div>
+                <p className="mb-2">Create Group*</p>
+                <input
+                  type="text"
+                  onChange={(e) => setGroup(e.target.value)}
+                  className="w-[20vw] h-[40px] rounded-lg"
+                  required
+                />
+              </div>
+
+              <div className=" h-100 items-center">
+                {groupImg ? (
+                  <div className="mt-3 ml-5 justify-center">
+                    <img
+                      src={URL.createObjectURL(groupImg)}
+                      className="w-[15vw] h-[100px] rounded-lg"
+                    />
+                  </div>
+                ) : (
+                  <div className="mt-8 ml-5 inline-block">
+                    <input
+                      className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                      type="file"
+                      accept=".jpg, .jpeg, .png"
+                      onChange={(e) => setGroupImg(e.target.files[0])}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
           <div className="my-5 ml-5">
             <p className="mb-2">Add Description</p>

@@ -15,6 +15,7 @@ export default function ViewCard() {
   const [groupName, setGroupName] = useState(null);
   const [groupDesc, setGroupDesc] = useState(null);
   const [noOfCards, setNoOfCards] = useState(0);
+  const [groupImg, setGroupImg] = useState(null);
   const { card } = useSelector((state) => state);
   //const [selectedTerm, setSelectedTerm] = useState(null);
   const [selectedId, setSelectedId] = useState(1);
@@ -27,12 +28,12 @@ export default function ViewCard() {
 
   useEffect(() => {
     if (cardGroup.length > 0) {
-      console.log(true);
       cardGroup.map((item) => {
         if (item.group === group) {
           setGroupName(item.group);
           setGroupDesc(item.description);
           setNoOfCards(item.noOfCards);
+          setGroupImg(item.groupImg);
         }
       });
     }
@@ -46,7 +47,6 @@ export default function ViewCard() {
         }
       });
       setCardData(arr);
-      console.log(cardData);
     }
   }, [groupName]);
 
@@ -75,7 +75,19 @@ export default function ViewCard() {
 
         <div className="flex flex-col text-bold justify-left items-start ml-8 mb-5">
           <h1 className="font-bold text-2xl">{groupName}</h1>
-          <h3>{groupDesc}</h3>
+          <div className="flex flex-row">
+            <h3>{groupDesc}</h3>
+            <div className=" h-100 items-center">
+              {groupImg ? (
+                <div className="mt-3 ml-5 justify-center">
+                  <img
+                    src={URL.createObjectURL(groupImg)}
+                    className="w-[15vw] h-[100px] rounded-lg"
+                  />
+                </div>
+              ) : null}
+            </div>
+          </div>
         </div>
       </div>
       <div className="flex flex-row m-10 justify-self-center">
