@@ -32,6 +32,23 @@ export default function CreateFlashcards() {
   const [editCardId, setEditCardId] = useState(0);
   const [duplicateTerm, setDuplicateTerm] = useState(false);
 
+  // function handleChange(event) {
+  //   const query = event.target.value.toLowerCase();
+  //   setSearchParam(query);
+  //   if (query.length > 1) {
+  //     const filteredData =
+  //       cardGroup && cardGroup.length > 0
+  //         ? cardGroup.filter(
+  //             (item) => item.group.toLowerCase().indexOf(query) > -1,
+  //           )
+  //         : [];
+  //     setGroupNameList(filteredData);
+  //     setShowDropdown(true);
+  //   } else {
+  //     setShowDropdown(false);
+  //   }
+  // }
+
   useEffect(() => {
     if (card.length > 0) {
       card.map((item) => {
@@ -55,19 +72,26 @@ export default function CreateFlashcards() {
     setEditCardId(item.id);
   }
 
-  function handleGroupName(name) {
-    setGroup(name);
+  function handleGroupName(event) {
+    setGroup(event.target.value);
 
     if (cardGroup) {
+      let flag = false;
       cardGroup.map((item) => {
-        if (item.group === name) {
+        if (item.group === event.target.value) {
           setDescription(item.description);
           setGroupImg(item.groupImg);
           setGroupExists(true);
-
+          flag = true;
           setCounter(item.noOfCards + 1);
         }
       });
+      if (!flag) {
+        setDescription(null);
+        setGroupImg(null);
+        setGroupExists(false);
+        setCounter(1);
+      }
     }
   }
 
@@ -151,11 +175,20 @@ export default function CreateFlashcards() {
               <div>
                 <p className="mb-2">Create Group*</p>
                 <input
-                  type="text"
-                  onChange={(e) => handleGroupName(e.target.value)}
+                  type="select"
+                  value={group}
+                  onChange={(e) => handleGroupName(e)}
                   className="w-[20vw] h-[40px] rounded-lg"
+                  list="groupList"
                   required
                 />
+                <datalist id="groupList">
+                  {cardGroup && cardGroup.length
+                    ? cardGroup.map((item, index) => (
+                        <option key={index}>{item.group}</option>
+                      ))
+                    : null}
+                </datalist>
               </div>
 
               <div className=" h-100 items-center">
