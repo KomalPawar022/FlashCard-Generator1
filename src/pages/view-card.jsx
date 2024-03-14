@@ -7,6 +7,7 @@ import { FaRegShareFromSquare } from "react-icons/fa6";
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import { IoPrint } from "react-icons/io5";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
+import { RWebShare } from "react-web-share";
 
 export default function ViewCard() {
   let { group } = useParams();
@@ -155,12 +156,22 @@ export default function ViewCard() {
           </div>
         </div>
         <div className="flex flex-col  h-[200px] m-5 gap-3">
-          <button className="btn bg-lime-200 font-semibold w-[200px] h-[40px] rounded-xl shadow-lg">
-            <div className="flex flex-row justify-center items-center p-2">
-              <FaRegShareFromSquare className="mr-2" />
-              Share
-            </div>
-          </button>
+          <RWebShare
+            data={{
+              text: "",
+              url: window.location.href,
+              title: "Share",
+            }}
+            onClick={() => console.log("shared successfully!")}
+          >
+            <button className="btn bg-lime-200 font-semibold w-[200px] h-[40px] rounded-xl shadow-lg">
+              <div className="flex flex-row justify-center items-center p-2 r">
+                <FaRegShareFromSquare className="mr-2" />
+                Share
+              </div>
+            </button>
+          </RWebShare>
+
           <button className="btn bg-lime-200 font-semibold w-[200px] h-[40px] rounded-xl shadow-lg">
             <div className="flex flex-row justify-center items-center p-2">
               <FaCloudDownloadAlt className="mr-2" />
