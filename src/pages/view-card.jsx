@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { FiArrowRightCircle } from "react-icons/fi";
 import { FaRegShareFromSquare } from "react-icons/fa6";
@@ -8,6 +8,10 @@ import { FaCloudDownloadAlt } from "react-icons/fa";
 import { IoPrint } from "react-icons/io5";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { RWebShare } from "react-web-share";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PDFComponent from "../components/pdf-component";
+// import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
 
 export default function ViewCard() {
   let { group } = useParams();
@@ -18,9 +22,47 @@ export default function ViewCard() {
   const [noOfCards, setNoOfCards] = useState(0);
   const [groupImg, setGroupImg] = useState(null);
   const { card } = useSelector((state) => state);
-  //const [selectedTerm, setSelectedTerm] = useState(null);
+
   const [selectedId, setSelectedId] = useState(1);
   const [cardData, setCardData] = useState([]);
+  //const [pdfContent, setPdfContent] = useState("");
+  const pdfRef = useRef(null);
+
+  // const styles = StyleSheet.create({
+  //   page: {
+  //     padding: 20,
+  //   },
+  //   content: {
+  //     fontSize: 12,
+  //   },
+  // });
+
+  // const handleDownloadPDF = async () => {
+  //   //const element = pdfRef.current;
+  //   setPdfContent(card);
+  //   const doc = (
+  //     <Document>
+  //       <Page style={styles.page}>
+  //         <View style={styles.content}>
+  //           <Text>{pdfContent}</Text>
+  //         </View>
+  //       </Page>
+  //     </Document>
+  //   );
+  //   console.log(doc);
+  //   const pdfBlob = await doc.blob();
+  //   const blobUrl = URL.createObjectURL(pdfBlob);
+
+  //   const link = document.createElement("a");
+  //   link.href = blobUrl;
+  //   link.download = "my-pdf-file.pdf";
+  //   link.click();
+
+  //   // Optionally trigger print dialog
+  //   // if (window.print) {
+  //   //   window.print();
+  //   // }
+  // };
 
   function handleOnClick(item) {
     setSelectedId(item.id);
@@ -70,7 +112,7 @@ export default function ViewCard() {
 
   return (
     <div>
-      <div className="flex flex-row">
+      <div className="flex flex-row" ref={pdfRef}>
         <Link to="/my-flashcards">
           <FaArrowAltCircleLeft className="h-[30px] w-[30px] ml-5 cursor-pointer" />
         </Link>
@@ -174,12 +216,24 @@ export default function ViewCard() {
             </button>
           </RWebShare>
 
-          <button className="btn bg-lime-200 font-semibold w-[200px] h-[40px] rounded-xl shadow-lg">
-            <div className="flex flex-row justify-center items-center p-2">
-              <FaCloudDownloadAlt className="mr-2" />
-              Download
-            </div>
-          </button>
+          <PDFDownloadLink
+            document={
+              <PDFComponent
+                groupName={groupName}
+                groupDesc={groupDesc}
+                groupImg={groupImg}
+                card={cardData}
+              />
+            }
+            fileName="flashcards.pdf"
+          >
+            <button className="btn bg-lime-200 font-semibold w-[200px] h-[40px] rounded-xl shadow-lg">
+              <div className="flex flex-row justify-center items-center p-2">
+                <FaCloudDownloadAlt className="mr-2" />
+                Download
+              </div>
+            </button>
+          </PDFDownloadLink>
           <button className="btn bg-lime-200 font-semibold w-[200px] h-[40px] rounded-xl shadow-lg">
             <div className="flex flex-row justify-center items-center p-2">
               <IoPrint className="mr-2" />

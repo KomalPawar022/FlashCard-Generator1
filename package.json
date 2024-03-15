@@ -9,6 +9,7 @@
   "main": "src/index.js",
   "dependencies": {
     "@heroicons/react": "^2.1.1",
+    "@react-pdf/renderer": "^3.3.8",
     "@reduxjs/toolkit": "^2.2.1",
     "html2canvas": "^1.4.1",
     "jsdom": "^24.0.0",
