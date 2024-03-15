@@ -33,23 +33,6 @@ export default function CreateFlashcards() {
   const [editCardId, setEditCardId] = useState(0);
   const [duplicateTerm, setDuplicateTerm] = useState(false);
 
-  // function returnUrl(img) {
-  //   let url = null;
-  //   if (img) {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(img);
-
-  //     reader.addEventListener("load", () => {
-  //       url = reader.result;
-  //       console.log("in eventListener", url);
-  //     });
-  //   }
-  //   setTimeout(() => {
-  //     console.log("in return url", url);
-  //     return url;
-  //   }, 2000);
-  // }
-
   useEffect(() => {
     if (card != null && card.length > 0) {
       card.map((item) => {
@@ -111,15 +94,18 @@ export default function CreateFlashcards() {
     e.preventDefault();
 
     if (term != null && term.length > 0) {
+      let url = null;
       const reader = new FileReader();
-      reader.readAsDataURL(img);
-      //console.log("img", img);
-      console.log("reader", reader);
+      if (img != null) {
+        reader.readAsDataURL(img);
+        //console.log("img", img);
+        console.log("reader", reader);
 
-      let url;
-      reader.addEventListener("load", () => {
-        url = reader.result;
-      });
+        reader.addEventListener("load", () => {
+          url = reader.result;
+        });
+      }
+
       setTimeout(() => {
         console.log("result", reader.result);
         console.log("url", url);
@@ -155,12 +141,16 @@ export default function CreateFlashcards() {
     }
 
     const reader = new FileReader();
-    reader.readAsDataURL(groupImg);
     let url = null;
-    reader.addEventListener("load", () => {
-      url = reader.result;
-      console.log("in eventListener", url);
-    });
+    if (groupImg != null) {
+      reader.readAsDataURL(groupImg);
+
+      reader.addEventListener("load", () => {
+        url = reader.result;
+        console.log("in eventListener", url);
+      });
+    }
+
     setTimeout(() => {
       if (!groupExists) {
         const groupData = {
@@ -333,11 +323,12 @@ export default function CreateFlashcards() {
                               accept=".jpg, .jpeg, .png"
                               onChange={(e) => {
                                 const reader = new FileReader();
-                                reader.readAsDataURL(e.target.files[0]);
                                 let url = null;
+
+                                reader.readAsDataURL(e.target.files[0]);
+
                                 reader.addEventListener("load", () => {
                                   url = reader.result;
-                                  console.log("in eventListener", url);
                                 });
 
                                 setTimeout(() => {
@@ -447,7 +438,7 @@ export default function CreateFlashcards() {
         {showModal && (
           <Modal
             onClose={onClose}
-            body={<div>Card Created</div>}
+            body={<div>Group Saved</div>}
             header={<div>null</div>}
             footer={<div>null</div>}
           />

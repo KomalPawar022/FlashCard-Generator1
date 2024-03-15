@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = () => {
   if (localStorage.getItem("cards")) {
-    console.log("cards", JSON.parse(localStorage.getItem("cards")));
     return JSON.parse(localStorage.getItem("cards"));
   } else return [];
 };
@@ -12,7 +11,7 @@ const cardSlice = createSlice({
   reducers: {
     addCard(state, action) {
       state.push(action.payload);
-      console.log("saved card", action.payload);
+
       localStorage.setItem("cards", JSON.stringify(state));
     },
 
@@ -55,7 +54,6 @@ const cardSlice = createSlice({
       });
 
       localStorage.setItem("cards", JSON.stringify(state));
-      console.log("image edit", action.payload);
     },
   },
 });

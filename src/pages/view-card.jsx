@@ -124,7 +124,7 @@ export default function ViewCard() {
               <h3 className="break-all">{groupDesc}</h3>
             </div>
             {groupImg ? (
-              <div className="mt-3 ml-2 justify-center w-[200px] h-[100px] mr-5">
+              <div className="mt-3 ml-2 justify-center w-[200px] h-[100px] mr-5 float-right">
                 <img
                   src={groupImg}
                   className="w-[200px] h-[100px] rounded-lg mr-3"

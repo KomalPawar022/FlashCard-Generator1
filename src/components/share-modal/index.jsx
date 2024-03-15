@@ -5,10 +5,13 @@ import { FaShareAlt } from "react-icons/fa";
 export default function ShareModal({ onClose }) {
   return (
     <div className="z-1 fixed pt-[150px] top-0 left-0 w-full h-full justify-center items-center  bg-opacity-0">
-      <div className="relative bg-lime-200 m-auto p-0 border border-lime-600 w-[80vw] text-center text-black-900 duration-75 m-2 rounded-xl">
+      <div className="relative bg-lime-200 m-auto p-0 border border-lime-600 w-[80vw] text-center text-black-900 duration-75  rounded-xl">
         <div className="bg-lime-200 text-center text-black-900">
           Share
-          <span onClick={onClose} className="close-modal-icon">
+          <span
+            onClick={onClose}
+            className="close-modal-icon text-lg float-right"
+          >
             ✖
           </span>
         </div>
