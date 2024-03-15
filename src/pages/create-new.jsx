@@ -21,7 +21,7 @@ export default function CreateFlashcards() {
   const { cardGroup } = useSelector((state) => state);
   const { card } = useSelector((state) => state);
   const [group, setGroup] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [description, setDescription] = useState("");
   const [groupImg, setGroupImg] = useState(null);
   const [term, setTerm] = useState("");
   const [def, setDef] = useState("");
@@ -88,7 +88,7 @@ export default function CreateFlashcards() {
         }
       });
       if (!flag) {
-        setDescription(null);
+        setDescription("");
         setGroupImg(null);
         setGroupExists(false);
         setCounter(1);
@@ -217,7 +217,7 @@ export default function CreateFlashcards() {
             <p className="mb-2">Add Description</p>
             <textarea
               type="text"
-              value={description}
+              value={description.toString()}
               onChange={(e) => setDescription(e.target.value)}
               className="rounded-lg lg:w-[800px] h-[80px] md:w-[500px]"
             />
@@ -361,16 +361,14 @@ export default function CreateFlashcards() {
             </div>
             <div className="mt-5 ml-5 inline-block">
               <p className="mb-2">Enter Definition*</p>
-
-              <textArea
+              {console.log("def", def)}
+              <textarea
                 type="text"
                 className="w-[20vw] h-[40px] rounded-lg"
                 onChange={(e) => setDef(e.target.value)}
                 required
-                value={def}
-              >
-                {def}
-              </textArea>
+                value={def.toString()}
+              />
             </div>
             <div className=" h-100 items-center">
               {img ? (
