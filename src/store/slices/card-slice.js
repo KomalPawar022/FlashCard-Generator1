@@ -1,16 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = () => {
+  if (localStorage.getItem("cards")) {
+    console.log("cards", JSON.parse(localStorage.getItem("cards")));
+    return JSON.parse(localStorage.getItem("cards"));
+  } else return [];
+};
 const cardSlice = createSlice({
   name: "card",
   initialState,
   reducers: {
     addCard(state, action) {
       state.push(action.payload);
+      console.log("saved card", action.payload);
+      localStorage.setItem("cards", JSON.stringify(state));
     },
 
     removeCard(state, action) {
-      return state.filter((item) => item.term != action.payload);
+      let temp = state.filter((item) => item.term != action.payload);
+      localStorage.setItem("cards", JSON.stringify(temp));
+      return temp;
     },
     adjustIds(state, action) {
       let index = 1;
@@ -20,6 +29,7 @@ const cardSlice = createSlice({
           index++;
         }
       });
+      localStorage.setItem("cards", JSON.stringify(state));
     },
     editTerm(state, action) {
       state.map((item) => {
@@ -27,6 +37,7 @@ const cardSlice = createSlice({
           item.term = action.payload.newTerm;
         }
       });
+      localStorage.setItem("cards", JSON.stringify(state));
     },
     editDefinition(state, action) {
       state.map((item) => {
@@ -34,6 +45,7 @@ const cardSlice = createSlice({
           item.definition = action.payload.definition;
         }
       });
+      localStorage.setItem("cards", JSON.stringify(state));
     },
     editImg(state, action) {
       state.map((item) => {
@@ -41,6 +53,9 @@ const cardSlice = createSlice({
           item.img = action.payload.img;
         }
       });
+
+      localStorage.setItem("cards", JSON.stringify(state));
+      console.log("image edit", action.payload);
     },
   },
 });

@@ -33,25 +33,25 @@ export default function CreateFlashcards() {
   const [editCardId, setEditCardId] = useState(0);
   const [duplicateTerm, setDuplicateTerm] = useState(false);
 
-  // function handleChange(event) {
-  //   const query = event.target.value.toLowerCase();
-  //   setSearchParam(query);
-  //   if (query.length > 1) {
-  //     const filteredData =
-  //       cardGroup && cardGroup.length > 0
-  //         ? cardGroup.filter(
-  //             (item) => item.group.toLowerCase().indexOf(query) > -1,
-  //           )
-  //         : [];
-  //     setGroupNameList(filteredData);
-  //     setShowDropdown(true);
-  //   } else {
-  //     setShowDropdown(false);
+  // function returnUrl(img) {
+  //   let url = null;
+  //   if (img) {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(img);
+
+  //     reader.addEventListener("load", () => {
+  //       url = reader.result;
+  //       console.log("in eventListener", url);
+  //     });
   //   }
+  //   setTimeout(() => {
+  //     console.log("in return url", url);
+  //     return url;
+  //   }, 2000);
   // }
 
   useEffect(() => {
-    if (card.length > 0) {
+    if (card != null && card.length > 0) {
       card.map((item) => {
         if (item.term === term) {
           console.log("Term Aready Exixts");
@@ -111,20 +111,34 @@ export default function CreateFlashcards() {
     e.preventDefault();
 
     if (term != null && term.length > 0) {
-      const cardData = {
-        id: counter,
-        term: term,
-        definition: def,
-        group: group,
-        img: img,
-      };
-      setTerm("");
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+      //console.log("img", img);
+      console.log("reader", reader);
 
-      setDef("");
+      let url;
+      reader.addEventListener("load", () => {
+        url = reader.result;
+      });
+      setTimeout(() => {
+        console.log("result", reader.result);
+        console.log("url", url);
 
-      setImg(null);
-      setCounter(counter + 1);
-      dispatch(addCard(cardData));
+        const cardData = {
+          id: counter,
+          term: term,
+          definition: def,
+          group: group,
+          img: url,
+        };
+        setTerm("");
+
+        setDef("");
+
+        setImg(null);
+        setCounter(counter + 1);
+        dispatch(addCard(cardData));
+      }, 3000);
     }
   }
 
@@ -140,28 +154,37 @@ export default function CreateFlashcards() {
       noOfcards = counter - 1;
     }
 
-    if (!groupExists) {
-      const groupData = {
-        group: group,
-        description: description,
-        noOfCards: noOfcards,
-        groupImg: groupImg,
-      };
-      dispatch(addGroup(groupData));
-    } else {
-      const groupData = {
-        group: group,
-        noOfCards: noOfcards,
-      };
-      console.log("groupData", groupData);
-      dispatch(changeNoOfCards(groupData));
-      dispatch(adjustIds(group));
-    }
-    if (hasDeleted) {
-      dispatch(adjustIds(group));
-    }
+    const reader = new FileReader();
+    reader.readAsDataURL(groupImg);
+    let url = null;
+    reader.addEventListener("load", () => {
+      url = reader.result;
+      console.log("in eventListener", url);
+    });
+    setTimeout(() => {
+      if (!groupExists) {
+        const groupData = {
+          group: group,
+          description: description,
+          noOfCards: noOfcards,
+          groupImg: url,
+        };
+        dispatch(addGroup(groupData));
+      } else {
+        const groupData = {
+          group: group,
+          noOfCards: noOfcards,
+        };
+        console.log("groupData", groupData);
+        dispatch(changeNoOfCards(groupData));
+        dispatch(adjustIds(group));
+      }
+      if (hasDeleted) {
+        dispatch(adjustIds(group));
+      }
 
-    setShowModal(true);
+      setShowModal(true);
+    }, 3000);
   }
 
   return (
@@ -196,7 +219,7 @@ export default function CreateFlashcards() {
                 {groupImg ? (
                   <div className="mt-3 ml-5 justify-center">
                     <img
-                      src={URL.createObjectURL(groupImg)}
+                      src={groupImg}
                       className="w-[15vw] h-[100px] rounded-lg"
                     />
                   </div>
@@ -275,7 +298,7 @@ export default function CreateFlashcards() {
                     </div>
                     <div className="mt-5 ml-5 inline-block">
                       <p className="mb-2">Enter Definition*</p>
-                      <textArea
+                      <textarea
                         type="text"
                         className="w-[20vw] h-[40px] rounded-lg"
                         disabled={editCardId === item.id ? false : true}
@@ -289,14 +312,14 @@ export default function CreateFlashcards() {
                         }
                       >
                         {item.definition}
-                      </textArea>
+                      </textarea>
                     </div>
                     <div className=" h-100 items-center">
                       <div className="space-y-2 flex flex-col">
                         {item.img ? (
                           <div className="m-2 ml-5 justify-center">
                             <img
-                              src={URL.createObjectURL(item.img)}
+                              src={item.img}
                               className="w-[15vw] h-[100px] rounded-lg "
                             />
                           </div>
@@ -308,14 +331,27 @@ export default function CreateFlashcards() {
                               className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
                               type="file"
                               accept=".jpg, .jpeg, .png"
-                              onChange={(e) =>
-                                dispatch(
-                                  editImg({
-                                    term: item.term,
-                                    img: e.target.files[0],
-                                  }),
-                                )
-                              }
+                              onChange={(e) => {
+                                const reader = new FileReader();
+                                reader.readAsDataURL(e.target.files[0]);
+                                let url = null;
+                                reader.addEventListener("load", () => {
+                                  url = reader.result;
+                                  console.log("in eventListener", url);
+                                });
+
+                                setTimeout(() => {
+                                  if (url) {
+                                    let imgData = {
+                                      term: item.term,
+                                      img: url,
+                                    };
+                                    console.log("imgData", imgData);
+                                    dispatch(editImg(imgData));
+                                    console.log("return url", url);
+                                  }
+                                }, 3000);
+                              }}
                             />
                           </div>
                         ) : null}
@@ -373,10 +409,7 @@ export default function CreateFlashcards() {
             <div className=" h-100 items-center">
               {img ? (
                 <div className="mt-5 ml-5 justify-center">
-                  <img
-                    src={URL.createObjectURL(img)}
-                    className="w-[15vw] h-[100px] rounded-lg"
-                  />
+                  <img src={img} className="w-[15vw] h-[100px] rounded-lg" />
                 </div>
               ) : (
                 <div className="mt-12 ml-5 inline-block">

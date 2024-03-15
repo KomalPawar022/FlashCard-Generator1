@@ -5,10 +5,7 @@ export default function GroupTile({ group, description, noOfCards, groupImg }) {
       <div className="group flex flex-col justify-center items-center border-2 border-lime-300 gap-1 p-4 h-[360px] mt-10 ml-5 rounded-xl">
         <div className="rounded-full border border-lime-600 h-[100px] w-[100px] mt-3">
           {groupImg ? (
-            <img
-              src={URL.createObjectURL(groupImg)}
-              className="w-[99px] h-[99px] rounded-full"
-            />
+            <img src={groupImg} className="w-[99px] h-[99px] rounded-full" />
           ) : null}
         </div>
         <div className="flex p-1">

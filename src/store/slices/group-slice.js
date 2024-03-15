@@ -1,15 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = () => {
+  if (localStorage.getItem("groups")) {
+    console.log("groups", JSON.parse(localStorage.getItem("groups")));
+    return JSON.parse(localStorage.getItem("groups"));
+  } else return [];
+};
 const groupSlice = createSlice({
   name: "cardGroup",
   initialState,
   reducers: {
     addGroup(state, action) {
       state.push(action.payload);
+      localStorage.setItem("groups", JSON.stringify(state));
     },
     removeGroup(state, action) {
-      return state.filter((item) => item.group != action.payload);
+      let temp = state.filter((item) => item.group != action.payload);
+      localStorage.setItem("groups", JSON.stringify(temp));
+      return temp;
     },
     changeNoOfCards(state, action) {
       state.map((item) => {
@@ -17,6 +25,7 @@ const groupSlice = createSlice({
           item.noOfCards = action.payload.noOfCards;
         }
       });
+      localStorage.setItem("groups", JSON.stringify(state));
     },
   },
 });

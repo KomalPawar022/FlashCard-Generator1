@@ -74,17 +74,17 @@ export default function ViewCard() {
         <Link to="/my-flashcards">
           <FaArrowAltCircleLeft className="h-[30px] w-[30px] ml-5 cursor-pointer" />
         </Link>
-
+        {/* npm install react-pdf jsPDF jsdom html2canvas */}
         <div className="flex flex-col text-bold justify-left items-start ml-8 mb-5">
           <h1 className="font-bold text-2xl">{groupName}</h1>
           <div className="flex flex-row items-center justify-center">
-            <div className="w-[80vw]">
+            <div className="w-auto ">
               <h3 className="break-all">{groupDesc}</h3>
             </div>
             {groupImg ? (
               <div className="mt-3 ml-2 justify-center w-[200px] h-[100px] mr-5">
                 <img
-                  src={URL.createObjectURL(groupImg)}
+                  src={groupImg}
                   className="w-[200px] h-[100px] rounded-lg mr-3"
                 />
               </div>
@@ -127,12 +127,14 @@ export default function ViewCard() {
                     <div className="flex flex-row">
                       {item.img ? (
                         <img
-                          src={URL.createObjectURL(item.img)}
+                          src={item.img}
                           className="w-[20vw] h-[200px] rounded-lg"
                         />
                       ) : null}
 
-                      <p className="text-center p-3">{item.definition}</p>
+                      <p className="text-center p-3 break-all overflow-ellipsis overflow-hidden">
+                        {item.definition}
+                      </p>
                     </div>
                   </div>
                 );
