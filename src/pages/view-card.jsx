@@ -8,7 +8,7 @@ import { FaCloudDownloadAlt } from "react-icons/fa";
 import { IoPrint } from "react-icons/io5";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { RWebShare } from "react-web-share";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
 import PDFComponent from "../components/pdf-component";
 // import jsPDF from "jspdf";
 // import html2canvas from "html2canvas";
@@ -234,12 +234,28 @@ export default function ViewCard() {
               </div>
             </button>
           </PDFDownloadLink>
-          <button className="btn bg-lime-200 font-semibold w-[200px] h-[40px] rounded-xl shadow-lg">
-            <div className="flex flex-row justify-center items-center p-2">
-              <IoPrint className="mr-2" />
-              Print
-            </div>
-          </button>
+
+          <BlobProvider
+            document={
+              <PDFComponent
+                groupName={groupName}
+                groupDesc={groupDesc}
+                groupImg={groupImg}
+                card={cardData}
+              />
+            }
+          >
+            {({ url }) => (
+              <a href={url} target="_blank" rel="noreferrer">
+                <button className="btn bg-lime-200 font-semibold w-[200px] h-[40px] rounded-xl shadow-lg">
+                  <div className="flex flex-row justify-center items-center p-2">
+                    <IoPrint className="mr-2" />
+                    Print
+                  </div>
+                </button>
+              </a>
+            )}
+          </BlobProvider>
         </div>
       </div>
     </div>

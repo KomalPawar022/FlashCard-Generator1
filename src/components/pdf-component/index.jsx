@@ -7,23 +7,44 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 
+const styles = StyleSheet.create({
+  page: {
+    padding: 20,
+    margin: 5,
+  },
+  image: {
+    width: 200,
+    height: 100,
+  },
+  text: {
+    margin: 10,
+  },
+});
+
 export default function PDFComponent({ groupName, groupDesc, groupImg, card }) {
   return (
     <Document>
-      <Page>
+      <Page style={styles.page}>
         <View className="flex flex-col space-y-3">
           <Text>GroupName:= {groupName}</Text>
           <Text>Description:= {groupDesc}</Text>
-          <Image src={groupImg} />
+          {groupImg ? <Image src={groupImg} style={styles.image} /> : null}
+
+          <Text> </Text>
         </View>
         <View className="flex flex-col space-y-3">
           {card?.map((item) => {
             return (
               <View key={item.id}>
-                <Text>{item.id}</Text>
-                <Text>Term:= {item.term}</Text>
+                <Text>
+                  {item.id}. Term:= {item.term}
+                </Text>
                 <Text>Definition:= {item.definition}</Text>
-                <Image src={item.img} />
+                {item.img ? (
+                  <Image src={item.img} style={styles.image} />
+                ) : null}
+
+                <Text> </Text>
               </View>
             );
           })}
