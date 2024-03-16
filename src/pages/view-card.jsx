@@ -10,8 +10,6 @@ import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { RWebShare } from "react-web-share";
 import { PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
 import PDFComponent from "../components/pdf-component";
-// import jsPDF from "jspdf";
-// import html2canvas from "html2canvas";
 
 export default function ViewCard() {
   let { group } = useParams();
@@ -22,51 +20,12 @@ export default function ViewCard() {
   const [noOfCards, setNoOfCards] = useState(0);
   const [groupImg, setGroupImg] = useState(null);
   const { card } = useSelector((state) => state);
-
   const [selectedId, setSelectedId] = useState(1);
   const [cardData, setCardData] = useState([]);
-  //const [pdfContent, setPdfContent] = useState("");
   const pdfRef = useRef(null);
-
-  // const styles = StyleSheet.create({
-  //   page: {
-  //     padding: 20,
-  //   },
-  //   content: {
-  //     fontSize: 12,
-  //   },
-  // });
-
-  // const handleDownloadPDF = async () => {
-  //   //const element = pdfRef.current;
-  //   setPdfContent(card);
-  //   const doc = (
-  //     <Document>
-  //       <Page style={styles.page}>
-  //         <View style={styles.content}>
-  //           <Text>{pdfContent}</Text>
-  //         </View>
-  //       </Page>
-  //     </Document>
-  //   );
-  //   console.log(doc);
-  //   const pdfBlob = await doc.blob();
-  //   const blobUrl = URL.createObjectURL(pdfBlob);
-
-  //   const link = document.createElement("a");
-  //   link.href = blobUrl;
-  //   link.download = "my-pdf-file.pdf";
-  //   link.click();
-
-  //   // Optionally trigger print dialog
-  //   // if (window.print) {
-  //   //   window.print();
-  //   // }
-  // };
 
   function handleOnClick(item) {
     setSelectedId(item.id);
-    //setSelectedTerm(item.term);
   }
 
   useEffect(() => {
@@ -135,7 +94,7 @@ export default function ViewCard() {
         </div>
       </div>
       <div className="flex flex-row m-10 justify-self-center">
-        <div className="flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6">
+        <div className="night-mode-container flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6">
           <ul className="text-center space-y-3 mb-3">
             <li className="font-semibold text-center">FlashCards</li>
             <hr className="h-[4px] color-lime-400 bg-lime-400" />
@@ -158,7 +117,7 @@ export default function ViewCard() {
           </ul>
         </div>
         <div className="flex flex-col justify-center items-center">
-          <div className="flex flex-col justify-center  shadow-lg bg-lime-200 gap-2 w-[700px] h-[400px] ml-5 rounded-xl">
+          <div className="night-mode-container flex flex-col justify-center  shadow-lg bg-lime-200 gap-2 w-[700px] h-[400px] ml-5 rounded-xl">
             {cardData?.map((item) => {
               if (item.id === selectedId) {
                 return (
@@ -199,7 +158,7 @@ export default function ViewCard() {
             />
           </div>
         </div>
-        <div className="flex flex-col  h-[200px] m-5 gap-3">
+        <div className="night-mode-container flex flex-col  h-[200px] m-5 gap-3">
           <RWebShare
             data={{
               text: "",

@@ -182,7 +182,7 @@ export default function CreateFlashcards() {
       <div className="text-xl font-bold animate-pulse text-red-800">
         {duplicateTerm ? "Term Already Exists" : null}
       </div>
-      <div className="bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg">
+      <div className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg">
         <form>
           <div className="my-5 ml-5 ">
             <div className="flex flex-row">
@@ -243,7 +243,7 @@ export default function CreateFlashcards() {
             item.group === group ? (
               <div
                 key={item.id}
-                className="bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5"
+                className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5"
               >
                 <form>
                   <div className="flex flex-row">
@@ -364,7 +364,7 @@ export default function CreateFlashcards() {
           )
         : null}
       {/* ------------------------------ */}
-      <div className="bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5">
+      <div className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5">
         <form>
           <div className="flex flex-row">
             <div className="m-5">

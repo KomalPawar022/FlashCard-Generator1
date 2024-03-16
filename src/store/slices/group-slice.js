@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = () => {
   if (localStorage.getItem("groups")) {
-    console.log("groups", JSON.parse(localStorage.getItem("groups")));
     return JSON.parse(localStorage.getItem("groups"));
   } else return [];
 };
