@@ -13,7 +13,7 @@ export default function GroupTile({ group, description, noOfCards, groupImg }) {
   return (
     <>
       <div
-        className="group flex flex-col justify-center items-center border-2 border-lime-300 gap-1 p-4 h-[360px] mt-10 ml-5 rounded-xl"
+        className="group flex flex-col justify-center items-center border-2 border-lime-300 gap-1 p-4 h-[360px] mt-10 ml-5 rounded-xl shadow-lg hover:scale-105"
         style={{ minWidth: "320px" }}
       >
         <div className="rounded-full border border-lime-600 h-[100px] w-[100px] mt-3">

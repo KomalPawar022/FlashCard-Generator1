@@ -93,73 +93,75 @@ export default function ViewCard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row m-10 justify-self-center">
-        <div
-          className="night-mode-container flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6"
-          style={{ minWidth: "200px" }}
-        >
-          <ul className="text-center space-y-3 mb-3">
-            <li className="font-semibold text-center">FlashCards</li>
-            <hr className="h-[4px] color-lime-400 bg-lime-400" />
+      <div className="flex flex-col lg:flex-row m-10 justify-self-center justify-center ">
+        <div className="flex flex-col sm:flex-row">
+          <div
+            className="night-mode-container flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6"
+            style={{ minWidth: "200px" }}
+          >
+            <ul className="text-center space-y-3 mb-3">
+              <li className="font-semibold text-center">FlashCards</li>
+              <hr className="h-[4px] color-lime-400 bg-lime-400" />
 
-            {cardData?.map((item) => {
-              return (
-                <li
-                  key={item.id}
-                  className={
-                    selectedId === item.id
-                      ? "font-bold text-lime-400 cursor-pointer"
-                      : "font-semibold hover:text-lime-400 cursor-pointer"
-                  }
-                  onClick={() => handleOnClick(item)}
-                >
-                  {item.term}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <div className="night-mode-container flex flex-col justify-center  shadow-lg bg-lime-200 gap-2 w-[500px] md:w-[700px] h-[400px] ml-5 rounded-xl">
-            {cardData?.map((item) => {
-              if (item.id === selectedId) {
+              {cardData?.map((item) => {
                 return (
-                  <div
+                  <li
                     key={item.id}
-                    className="flex justify-center items-center m-5"
+                    className={
+                      selectedId === item.id
+                        ? "font-bold text-lime-400 cursor-pointer"
+                        : "font-semibold hover:text-lime-400 cursor-pointer"
+                    }
+                    onClick={() => handleOnClick(item)}
                   >
-                    <div className="flex flex-row">
-                      {item.img ? (
-                        <img
-                          src={item.img}
-                          className="w-[20vw] h-[200px] rounded-lg"
-                          style={{ minWidth: "145px" }}
-                        />
-                      ) : null}
-
-                      <p className="text-center p-3 break-all overflow-ellipsis overflow-hidden">
-                        {item.definition}
-                      </p>
-                    </div>
-                  </div>
+                    {item.term}
+                  </li>
                 );
-              }
-            })}
+              })}
+            </ul>
           </div>
-          <div className="flex flex-row justify-center items-center mt-5">
-            <FiArrowLeftCircle
-              color="rgb(163 230 53)"
-              className="mr-3 h-[20px] w-[20px] cursor-pointer"
-              onClick={handleLeftClick}
-            />
-            <h3>
-              {noOfCards == 0 ? 0 : selectedId}/{noOfCards}
-            </h3>
-            <FiArrowRightCircle
-              color="rgb(163 230 53)"
-              className="ml-3 h-[20px] w-[20px] cursor-pointer"
-              onClick={handleRightClick}
-            />
+          <div className="flex flex-col ">
+            <div className="night-mode-container flex flex-col justify-center flex-shrink  shadow-lg bg-lime-200 gap-2 w-[400px] md:w-[500px] lg:w-[600px] xl:w-[700px] h-[400px] ml-5 rounded-xl mt-5">
+              {cardData?.map((item) => {
+                if (item.id === selectedId) {
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex justify-center items-center m-5"
+                    >
+                      <div className="flex flex-row">
+                        {item.img ? (
+                          <img
+                            src={item.img}
+                            className="w-[20vw] h-[200px] rounded-lg"
+                            style={{ minWidth: "145px" }}
+                          />
+                        ) : null}
+
+                        <p className="text-center p-3 break-all overflow-ellipsis overflow-hidden">
+                          {item.definition}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+            <div className="flex flex-row justify-center items-center mt-5">
+              <FiArrowLeftCircle
+                color="rgb(163 230 53)"
+                className="mr-3 h-[20px] w-[20px] cursor-pointer"
+                onClick={handleLeftClick}
+              />
+              <h3>
+                {noOfCards == 0 ? 0 : selectedId}/{noOfCards}
+              </h3>
+              <FiArrowRightCircle
+                color="rgb(163 230 53)"
+                className="ml-3 h-[20px] w-[20px] cursor-pointer"
+                onClick={handleRightClick}
+              />
+            </div>
           </div>
         </div>
         <div className="night-mode-container flex flex-col  h-[200px] m-5 gap-3">

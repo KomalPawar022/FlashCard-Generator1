@@ -29,7 +29,6 @@ export default function CreateFlashcards() {
   const [hasDeleted, setHasDeleted] = useState(false);
   const [groupExists, setGroupExists] = useState(false);
   const [editCardId, setEditCardId] = useState(0);
-  //const [duplicateTerm, setDuplicateTerm] = useState(false);
   const [warningMsg, setWarningMsg] = useState("");
 
   useEffect(() => {
@@ -48,11 +47,6 @@ export default function CreateFlashcards() {
           setWarningMsg("The Term Already Exists");
           setTerm("");
         }
-        // } else {
-        //   setTimeout(() => {
-        //     setWarningMsg("");
-        //   }, 3000);
-        // }
       });
     }
   }, [term]);
@@ -107,7 +101,7 @@ export default function CreateFlashcards() {
         const reader = new FileReader();
         if (img != null) {
           reader.readAsDataURL(img);
-          //console.log("img", img);
+
           console.log("reader", reader);
 
           reader.addEventListener("load", () => {
@@ -116,9 +110,6 @@ export default function CreateFlashcards() {
         }
 
         setTimeout(() => {
-          console.log("result", reader.result);
-          console.log("url", url);
-
           const cardData = {
             id: counter,
             term: term,
@@ -140,10 +131,6 @@ export default function CreateFlashcards() {
     } else {
       setWarningMsg("The Card won't be saved");
     }
-
-    // setTimeout(() => {
-    //   setWarningMsg("");
-    // }, 3000);
   }
 
   function handleSaveGroup(e) {
@@ -196,10 +183,6 @@ export default function CreateFlashcards() {
     } else {
       setWarningMsg("Please Enter Group Name");
     }
-
-    // setTimeout(() => {
-    //   setWarningMsg("");
-    // }, 3000);
   }
 
   return (
@@ -245,9 +228,9 @@ export default function CreateFlashcards() {
                     />
                   </div>
                 ) : (
-                  <div className="mt-8 sm:ml-5 inline-block">
+                  <div className="mt-8 sm:ml-5 inline-block ">
                     <input
-                      className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                      className="border  rounded-lg w-[20vw] h-[40px]"
                       style={{ minWidth: "210px" }}
                       type="file"
                       accept=".jpg, .jpeg, .png"
@@ -281,7 +264,10 @@ export default function CreateFlashcards() {
               >
                 <form>
                   <div className="flex flex-col lg:flex-row ">
-                    <div className="ml-5 mt-5 h-[30px] w-[30px] bg-lime-400 rounded-full text-center">
+                    <div
+                      className="ml-5 mt-5 h-[30px] w-[30px] bg-lime-400 rounded-full text-center"
+                      style={{ minWidth: "30px", minHeight: "30px" }}
+                    >
                       {item.id}
                     </div>
                     <div className="flex flex-col sm:flex-row sm:ml-5">
@@ -336,13 +322,10 @@ export default function CreateFlashcards() {
                       </div>
                     </div>
                     <div className="flex flex-row mt-5 mb-5 mr-5 sm:ml-5">
-                      <div className=" h-100 items-center flex flex-row md:flex-col">
+                      <div className=" h-100 items-center flex flex-row md:flex-col ml-5 md:ml-0">
                         <div className="space-y-2 flex flex-col">
                           {item.img ? (
-                            <div
-                              className="m-2 ml-5 justify-center"
-                              // style={{ minWidth: "145px" }}
-                            >
+                            <div className="m-2 justify-center">
                               <img
                                 src={item.img}
                                 className="w-[15vw] h-[100px] rounded-lg "
@@ -352,9 +335,9 @@ export default function CreateFlashcards() {
                           ) : null}
 
                           {editCardId === item.id ? (
-                            <div className="mt-5 ml-5 inline-block">
+                            <div className="mt-5 inline-block">
                               <input
-                                className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                                className="border  rounded-lg w-[20vw] h-[40px]"
                                 style={{ minWidth: "210px" }}
                                 type="file"
                                 accept=".jpg, .jpeg, .png"
@@ -374,9 +357,8 @@ export default function CreateFlashcards() {
                                         term: item.term,
                                         img: url,
                                       };
-                                      console.log("imgData", imgData);
+
                                       dispatch(editImg(imgData));
-                                      console.log("return url", url);
                                     }
                                   }, 3000);
                                 }}
@@ -386,7 +368,7 @@ export default function CreateFlashcards() {
                         </div>
                       </div>
 
-                      <div className="flex flex-col ml-5 space-y-3 m-5">
+                      <div className="flex flex-col space-y-3 mt-5">
                         <button onClick={(e) => handleDeleteCard(e, item)}>
                           <RiDeleteBin5Line className="h-[30px] w-[30px]" />
                         </button>
@@ -428,7 +410,7 @@ export default function CreateFlashcards() {
                 </div>
                 <div className="mt-5 ml-5 inline-block">
                   <p className="mb-2">Enter Definition*</p>
-                  {console.log("def", def)}
+
                   <textarea
                     type="text"
                     className="w-[20vw] h-[40px] rounded-lg"
@@ -439,7 +421,7 @@ export default function CreateFlashcards() {
                   />
                 </div>
               </div>
-              <div className="mt-5 h-100 items-center">
+              <div className="lg:mt-0 h-100 items-center">
                 {img ? (
                   <div className="mt-5 ml-5 justify-center">
                     <img src={img} className="w-[15vw] h-[100px] rounded-lg" />
@@ -447,7 +429,7 @@ export default function CreateFlashcards() {
                 ) : (
                   <div className="mt-5 lg:mt-12 ml-5 inline-block">
                     <input
-                      className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                      className="border rounded-lg w-[20vw] h-[40px] mt-1"
                       style={{ minWidth: "210px" }}
                       type="file"
                       accept=".jpg, .jpeg, .png"
@@ -473,7 +455,7 @@ export default function CreateFlashcards() {
       {/* ------------------------------------ */}
       <div className="my-5 ml-5 items-end">
         <button
-          className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+          className="border border-lime-400 rounded-lg w-[20vw] h-[40px] shadow-lg"
           onClick={handleSaveGroup}
           type="submit"
         >
