@@ -34,17 +34,26 @@ export default function CreateFlashcards() {
   const [warningMsg, setWarningMsg] = useState("");
 
   useEffect(() => {
+    if (warningMsg.length > 0) {
+      setTimeout(() => {
+        setWarningMsg("");
+      }, 3000);
+    }
+  }, [warningMsg]);
+
+  useEffect(() => {
     if (card != null && card.length > 0) {
       card.map((item) => {
         if (item.term === term) {
           console.log("Term Aready Exixts");
           setWarningMsg("The Term Already Exists");
           setTerm("");
-        } else {
-          setTimeout(() => {
-            setWarningMsg("");
-          }, 3000);
         }
+        // } else {
+        //   setTimeout(() => {
+        //     setWarningMsg("");
+        //   }, 3000);
+        // }
       });
     }
   }, [term]);
@@ -133,9 +142,9 @@ export default function CreateFlashcards() {
       setWarningMsg("The Card won't be saved");
     }
 
-    setTimeout(() => {
-      setWarningMsg("");
-    }, 3000);
+    // setTimeout(() => {
+    //   setWarningMsg("");
+    // }, 3000);
   }
 
   function handleSaveGroup(e) {
@@ -189,9 +198,9 @@ export default function CreateFlashcards() {
       setWarningMsg("Please Enter Group Name");
     }
 
-    setTimeout(() => {
-      setWarningMsg("");
-    }, 3000);
+    // setTimeout(() => {
+    //   setWarningMsg("");
+    // }, 3000);
   }
 
   return (
@@ -264,7 +273,7 @@ export default function CreateFlashcards() {
                 className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5"
               >
                 <form>
-                  <div className="flex flex-row">
+                  <div className="flex flex-col md:flex-row ">
                     <div className="m-5">
                       <FaCircle
                         className="h-[30px] w-[30px]"
@@ -272,58 +281,56 @@ export default function CreateFlashcards() {
                       />
                       {item.id}
                     </div>
-                    <div className="mt-5  inline-block">
-                      <p className="mb-2">Enter Term*</p>
+                    <div>
+                      <div className="mt-5  inline-block ">
+                        <p className="mb-2">Enter Term*</p>
 
-                      <input
-                        type="text"
-                        // placeholder={
-                        //   duplicateTerm ? "Term already exists" : null
-                        // }
-                        className="w-[20vw] h-[40px] rounded-lg"
-                        value={item.term}
-                        disabled={editCardId === item.id ? false : true}
-                        onChange={(e) => {
-                          let flag = false;
-                          if (card.length > 0) {
-                            card.map((item) => {
-                              if (item.term === e.target.value) {
-                                flag = true;
-                                setWarningMsg("The Term already Exists");
-                              }
-                            });
-                            setTimeout(() => {
-                              setWarningMsg("");
-                            }, 3000);
-                          }
-                          if (!flag) {
+                        <input
+                          type="text"
+                          className="w-[20vw] h-[40px] rounded-lg"
+                          style={{ minWidth: "220px" }}
+                          value={item.term}
+                          disabled={editCardId === item.id ? false : true}
+                          onChange={(e) => {
+                            let flag = false;
+                            if (card.length > 0) {
+                              card.map((item) => {
+                                if (item.term === e.target.value) {
+                                  flag = true;
+                                  setWarningMsg("The Term already Exists");
+                                }
+                              });
+                            }
+                            if (!flag) {
+                              dispatch(
+                                editTerm({
+                                  prevTerm: item.term,
+                                  newTerm: e.target.value,
+                                }),
+                              );
+                            }
+                          }}
+                        />
+                      </div>
+                      <div className="mt-5 ml-5 inline-block">
+                        <p className="mb-2">Enter Definition*</p>
+                        <textarea
+                          type="text"
+                          className="w-[20vw] h-[40px] rounded-lg"
+                          style={{ minWidth: "220px" }}
+                          disabled={editCardId === item.id ? false : true}
+                          onChange={(e) =>
                             dispatch(
-                              editTerm({
-                                prevTerm: item.term,
-                                newTerm: e.target.value,
+                              editDefinition({
+                                term: item.term,
+                                definition: e.target.value,
                               }),
-                            );
+                            )
                           }
-                        }}
-                      />
-                    </div>
-                    <div className="mt-5 ml-5 inline-block">
-                      <p className="mb-2">Enter Definition*</p>
-                      <textarea
-                        type="text"
-                        className="w-[20vw] h-[40px] rounded-lg"
-                        disabled={editCardId === item.id ? false : true}
-                        onChange={(e) =>
-                          dispatch(
-                            editDefinition({
-                              term: item.term,
-                              definition: e.target.value,
-                            }),
-                          )
-                        }
-                      >
-                        {item.definition}
-                      </textarea>
+                        >
+                          {item.definition}
+                        </textarea>
+                      </div>
                     </div>
                     <div className=" h-100 items-center">
                       <div className="space-y-2 flex flex-col">
@@ -387,7 +394,7 @@ export default function CreateFlashcards() {
       {/* ------------------------------ */}
       <div className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5">
         <form>
-          <div className="flex flex-row">
+          <div className="flex flex-col sm:flex-row">
             <div className="m-5">
               <FaCircle
                 className="h-[30px] w-[30px]"
@@ -395,44 +402,49 @@ export default function CreateFlashcards() {
                 visible={true}
               />
             </div>
-            <div className="mt-5  inline-block">
-              <p className="mb-2">Enter Term*</p>
+            <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col sm:flex-row">
+                <div className="mt-5  inline-block ml-5">
+                  <p className="mb-2">Enter Term*</p>
 
-              <input
-                type="text"
-                className="w-[20vw] h-[40px] rounded-lg"
-                value={term}
-                // placeholder={duplicateTerm ? "Term already exists" : null}
-                onChange={(e) => setTerm(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mt-5 ml-5 inline-block">
-              <p className="mb-2">Enter Definition*</p>
-              {console.log("def", def)}
-              <textarea
-                type="text"
-                className="w-[20vw] h-[40px] rounded-lg"
-                onChange={(e) => setDef(e.target.value)}
-                required
-                value={def.toString()}
-              />
-            </div>
-            <div className=" h-100 items-center">
-              {img ? (
-                <div className="mt-5 ml-5 justify-center">
-                  <img src={img} className="w-[15vw] h-[100px] rounded-lg" />
-                </div>
-              ) : (
-                <div className="mt-12 ml-5 inline-block">
                   <input
-                    className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
-                    type="file"
-                    accept=".jpg, .jpeg, .png"
-                    onChange={(e) => setImg(e.target.files[0])}
+                    type="text"
+                    className="w-[20vw] h-[40px] rounded-lg"
+                    style={{ minWidth: "220px" }}
+                    value={term}
+                    onChange={(e) => setTerm(e.target.value)}
+                    required
                   />
                 </div>
-              )}
+                <div className="mt-5 ml-5 inline-block">
+                  <p className="mb-2">Enter Definition*</p>
+                  {console.log("def", def)}
+                  <textarea
+                    type="text"
+                    className="w-[20vw] h-[40px] rounded-lg"
+                    style={{ minWidth: "220px" }}
+                    onChange={(e) => setDef(e.target.value)}
+                    required
+                    value={def.toString()}
+                  />
+                </div>
+              </div>
+              <div className=" h-100 items-center">
+                {img ? (
+                  <div className="mt-5 ml-5 justify-center">
+                    <img src={img} className="w-[15vw] h-[100px] rounded-lg" />
+                  </div>
+                ) : (
+                  <div className="mt-12 ml-5 inline-block">
+                    <input
+                      className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                      type="file"
+                      accept=".jpg, .jpeg, .png"
+                      onChange={(e) => setImg(e.target.files[0])}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className="my-3 ml-5">

@@ -30,7 +30,10 @@ export default function GroupTile({ group, description, noOfCards, groupImg }) {
           </p>
         </div>
         <div className="flex p-3 flex-row space-x-2">
-          <button className="border border-lime-600 rounded-lg w-[15vw] h-[40px] text-lime-600">
+          <button
+            className="border border-lime-600 rounded-lg w-[15vw] h-[40px] text-lime-600 sm:min-w-[112px]"
+            style={{ minWidth: "112px" }}
+          >
             <Link to={`/view-card/:${group}`}>View Cards</Link>
           </button>
 
