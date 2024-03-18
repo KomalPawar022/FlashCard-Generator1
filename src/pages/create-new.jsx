@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { addGroup, changeNoOfCards } from "../store/slices/group-slice";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
   addCard,
   removeCard,
@@ -31,19 +30,20 @@ export default function CreateFlashcards() {
   const [hasDeleted, setHasDeleted] = useState(false);
   const [groupExists, setGroupExists] = useState(false);
   const [editCardId, setEditCardId] = useState(0);
-  const [duplicateTerm, setDuplicateTerm] = useState(false);
+  //const [duplicateTerm, setDuplicateTerm] = useState(false);
+  const [warningMsg, setWarningMsg] = useState("");
 
   useEffect(() => {
     if (card != null && card.length > 0) {
       card.map((item) => {
         if (item.term === term) {
           console.log("Term Aready Exixts");
-          setDuplicateTerm(true);
+          setWarningMsg("The Term Already Exists");
           setTerm("");
         } else {
           setTimeout(() => {
-            setDuplicateTerm(false);
-          }, 4000);
+            setWarningMsg("");
+          }, 3000);
         }
       });
     }
@@ -94,38 +94,48 @@ export default function CreateFlashcards() {
     e.preventDefault();
 
     if (term != null && term.length > 0) {
-      let url = null;
-      const reader = new FileReader();
-      if (img != null) {
-        reader.readAsDataURL(img);
-        //console.log("img", img);
-        console.log("reader", reader);
+      if (def != null && def.length > 0) {
+        let url = null;
+        const reader = new FileReader();
+        if (img != null) {
+          reader.readAsDataURL(img);
+          //console.log("img", img);
+          console.log("reader", reader);
 
-        reader.addEventListener("load", () => {
-          url = reader.result;
-        });
+          reader.addEventListener("load", () => {
+            url = reader.result;
+          });
+        }
+
+        setTimeout(() => {
+          console.log("result", reader.result);
+          console.log("url", url);
+
+          const cardData = {
+            id: counter,
+            term: term,
+            definition: def,
+            group: group,
+            img: url,
+          };
+          setTerm("");
+
+          setDef("");
+
+          setImg(null);
+          setCounter(counter + 1);
+          dispatch(addCard(cardData));
+        }, 3000);
+      } else {
+        setWarningMsg("The Card won't be saved");
       }
-
-      setTimeout(() => {
-        console.log("result", reader.result);
-        console.log("url", url);
-
-        const cardData = {
-          id: counter,
-          term: term,
-          definition: def,
-          group: group,
-          img: url,
-        };
-        setTerm("");
-
-        setDef("");
-
-        setImg(null);
-        setCounter(counter + 1);
-        dispatch(addCard(cardData));
-      }, 3000);
+    } else {
+      setWarningMsg("The Card won't be saved");
     }
+
+    setTimeout(() => {
+      setWarningMsg("");
+    }, 3000);
   }
 
   function handleSaveGroup(e) {
@@ -134,7 +144,7 @@ export default function CreateFlashcards() {
       handleSaveCard(e);
 
       let noOfcards;
-      if (term != null && term.length > 0) {
+      if (term != null && term.length > 0 && def != null && def.length > 0) {
         noOfcards = counter;
       } else {
         noOfcards = counter - 1;
@@ -175,13 +185,20 @@ export default function CreateFlashcards() {
 
         setShowModal(true);
       }, 3000);
+    } else {
+      setWarningMsg("Please Enter Group Name");
     }
+
+    setTimeout(() => {
+      setWarningMsg("");
+    }, 3000);
   }
 
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="text-xl font-bold animate-pulse text-red-800">
-        {duplicateTerm ? "Term Already Exists" : null}
+        {/* {duplicateTerm ? "Term Already Exists" : null} */}
+        {warningMsg.length > 0 ? warningMsg : null}
       </div>
       <div className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg">
         <form>
@@ -260,9 +277,9 @@ export default function CreateFlashcards() {
 
                       <input
                         type="text"
-                        placeholder={
-                          duplicateTerm ? "Term already exists" : null
-                        }
+                        // placeholder={
+                        //   duplicateTerm ? "Term already exists" : null
+                        // }
                         className="w-[20vw] h-[40px] rounded-lg"
                         value={item.term}
                         disabled={editCardId === item.id ? false : true}
@@ -272,9 +289,12 @@ export default function CreateFlashcards() {
                             card.map((item) => {
                               if (item.term === e.target.value) {
                                 flag = true;
-                                setDuplicateTerm(true);
+                                setWarningMsg("The Term already Exists");
                               }
                             });
+                            setTimeout(() => {
+                              setWarningMsg("");
+                            }, 3000);
                           }
                           if (!flag) {
                             dispatch(
@@ -439,7 +459,7 @@ export default function CreateFlashcards() {
         {showModal && (
           <Modal
             onClose={onClose}
-            body={<div>Group Saved</div>}
+            body={<div>Data Saved</div>}
             header={<div>null</div>}
             footer={<div>null</div>}
           />
