@@ -6,7 +6,7 @@ export default function MyFlashcards() {
   return (
     <div>
       {cardGroup && cardGroup.length ? (
-        <div className="min-h-[80vh] grid sm:grid-cols-2  lg:grid-cols-3 max-w-6xl mx-auto p-3">
+        <div className="min-h-[80vh] grid sm:grid-cols-2  lg:grid-cols-3 max-w-6xl mx-auto ">
           {cardGroup.map((item, index) => (
             <GroupTile
               key={index}

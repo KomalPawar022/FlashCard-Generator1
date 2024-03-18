@@ -11,7 +11,6 @@ import {
 } from "../store/slices/card-slice";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
-import { FaCircle } from "react-icons/fa";
 
 import Modal from "../components/modal";
 
@@ -204,15 +203,18 @@ export default function CreateFlashcards() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center ">
       <div className="text-xl font-bold animate-pulse text-red-800">
-        {/* {duplicateTerm ? "Term Already Exists" : null} */}
         {warningMsg.length > 0 ? warningMsg : null}
       </div>
-      <div className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg">
+      {/* -----Group----- */}
+      <div
+        className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg"
+        style={{ minWidth: "385px" }}
+      >
         <form>
           <div className="my-5 ml-5 ">
-            <div className="flex flex-row">
+            <div className="flex flex-col sm:flex-row">
               <div>
                 <p className="mb-2">Create Group*</p>
                 <input
@@ -220,6 +222,7 @@ export default function CreateFlashcards() {
                   value={group}
                   onChange={(e) => handleGroupName(e)}
                   className="w-[20vw] h-[40px] rounded-lg"
+                  style={{ minWidth: "220px" }}
                   list="groupList"
                   required
                 />
@@ -234,16 +237,18 @@ export default function CreateFlashcards() {
 
               <div className=" h-100 items-center">
                 {groupImg ? (
-                  <div className="mt-3 ml-5 justify-center">
+                  <div className="mt-3 sm:ml-5 justify-center">
                     <img
                       src={groupImg}
                       className="w-[15vw] h-[100px] rounded-lg"
+                      style={{ minWidth: "145px" }}
                     />
                   </div>
                 ) : (
-                  <div className="mt-8 ml-5 inline-block">
+                  <div className="mt-8 sm:ml-5 inline-block">
                     <input
                       className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                      style={{ minWidth: "210px" }}
                       type="file"
                       accept=".jpg, .jpeg, .png"
                       onChange={(e) => setGroupImg(e.target.files[0])}
@@ -260,29 +265,27 @@ export default function CreateFlashcards() {
               value={description.toString()}
               onChange={(e) => setDescription(e.target.value)}
               className="rounded-lg lg:w-[800px] h-[80px] md:w-[500px]"
+              style={{ minWidth: "300px" }}
             />
           </div>
         </form>
       </div>
-
+      {/* -------Saved Cards-------- */}
       {card && card.length
         ? card.map((item) =>
             item.group === group ? (
               <div
                 key={item.id}
                 className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5"
+                style={{ minWidth: "385px" }}
               >
                 <form>
-                  <div className="flex flex-col md:flex-row ">
-                    <div className="m-5">
-                      <FaCircle
-                        className="h-[30px] w-[30px]"
-                        color="rgb(163 230 53)"
-                      />
+                  <div className="flex flex-col lg:flex-row ">
+                    <div className="ml-5 mt-5 h-[30px] w-[30px] bg-lime-400 rounded-full text-center">
                       {item.id}
                     </div>
-                    <div>
-                      <div className="mt-5  inline-block ">
+                    <div className="flex flex-col sm:flex-row sm:ml-5">
+                      <div className="mt-5 ml-5 inline-block ">
                         <p className="mb-2">Enter Term*</p>
 
                         <input
@@ -332,58 +335,65 @@ export default function CreateFlashcards() {
                         </textarea>
                       </div>
                     </div>
-                    <div className=" h-100 items-center">
-                      <div className="space-y-2 flex flex-col">
-                        {item.img ? (
-                          <div className="m-2 ml-5 justify-center">
-                            <img
-                              src={item.img}
-                              className="w-[15vw] h-[100px] rounded-lg "
-                            />
-                          </div>
-                        ) : null}
+                    <div className="flex flex-row mt-5 mb-5 mr-5 sm:ml-5">
+                      <div className=" h-100 items-center flex flex-row md:flex-col">
+                        <div className="space-y-2 flex flex-col">
+                          {item.img ? (
+                            <div
+                              className="m-2 ml-5 justify-center"
+                              // style={{ minWidth: "145px" }}
+                            >
+                              <img
+                                src={item.img}
+                                className="w-[15vw] h-[100px] rounded-lg "
+                                style={{ minWidth: "145px" }}
+                              />
+                            </div>
+                          ) : null}
 
-                        {editCardId === item.id ? (
-                          <div className="mt-5 ml-5 inline-block">
-                            <input
-                              className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
-                              type="file"
-                              accept=".jpg, .jpeg, .png"
-                              onChange={(e) => {
-                                const reader = new FileReader();
-                                let url = null;
+                          {editCardId === item.id ? (
+                            <div className="mt-5 ml-5 inline-block">
+                              <input
+                                className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                                style={{ minWidth: "210px" }}
+                                type="file"
+                                accept=".jpg, .jpeg, .png"
+                                onChange={(e) => {
+                                  const reader = new FileReader();
+                                  let url = null;
 
-                                reader.readAsDataURL(e.target.files[0]);
+                                  reader.readAsDataURL(e.target.files[0]);
 
-                                reader.addEventListener("load", () => {
-                                  url = reader.result;
-                                });
+                                  reader.addEventListener("load", () => {
+                                    url = reader.result;
+                                  });
 
-                                setTimeout(() => {
-                                  if (url) {
-                                    let imgData = {
-                                      term: item.term,
-                                      img: url,
-                                    };
-                                    console.log("imgData", imgData);
-                                    dispatch(editImg(imgData));
-                                    console.log("return url", url);
-                                  }
-                                }, 3000);
-                              }}
-                            />
-                          </div>
-                        ) : null}
+                                  setTimeout(() => {
+                                    if (url) {
+                                      let imgData = {
+                                        term: item.term,
+                                        img: url,
+                                      };
+                                      console.log("imgData", imgData);
+                                      dispatch(editImg(imgData));
+                                      console.log("return url", url);
+                                    }
+                                  }, 3000);
+                                }}
+                              />
+                            </div>
+                          ) : null}
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="flex flex-col ml-5 space-y-3 m-5">
-                      <button onClick={(e) => handleDeleteCard(e, item)}>
-                        <RiDeleteBin5Line className="h-[30px] w-[30px]" />
-                      </button>
-                      <button onClick={(e) => handleEditCard(e, item)}>
-                        <FaRegEdit className="h-[30px] w-[30px]" />
-                      </button>
+                      <div className="flex flex-col ml-5 space-y-3 m-5">
+                        <button onClick={(e) => handleDeleteCard(e, item)}>
+                          <RiDeleteBin5Line className="h-[30px] w-[30px]" />
+                        </button>
+                        <button onClick={(e) => handleEditCard(e, item)}>
+                          <FaRegEdit className="h-[30px] w-[30px] ml-1" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -391,18 +401,18 @@ export default function CreateFlashcards() {
             ) : null,
           )
         : null}
-      {/* ------------------------------ */}
-      <div className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5">
+      {/* -------New Card---- */}
+      <div
+        className="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5"
+        style={{ minWidth: "385px" }}
+      >
         <form>
-          <div className="flex flex-col sm:flex-row">
-            <div className="m-5">
-              <FaCircle
-                className="h-[30px] w-[30px]"
-                color="rgb(163 230 53)"
-                visible={true}
-              />
-            </div>
-            <div className="flex flex-col md:flex-row">
+          <div className="flex flex-col md:flex-row">
+            <div
+              className="mt-5 ml-5 h-[30px] w-[30px] bg-lime-400 rounded-full text-center"
+              style={{ minWidth: "30px", minHeight: "30px" }}
+            ></div>
+            <div className="flex flex-col lg:flex-row">
               <div className="flex flex-col sm:flex-row">
                 <div className="mt-5  inline-block ml-5">
                   <p className="mb-2">Enter Term*</p>
@@ -429,15 +439,16 @@ export default function CreateFlashcards() {
                   />
                 </div>
               </div>
-              <div className=" h-100 items-center">
+              <div className="mt-5 h-100 items-center">
                 {img ? (
                   <div className="mt-5 ml-5 justify-center">
                     <img src={img} className="w-[15vw] h-[100px] rounded-lg" />
                   </div>
                 ) : (
-                  <div className="mt-12 ml-5 inline-block">
+                  <div className="mt-5 lg:mt-12 ml-5 inline-block">
                     <input
                       className="border border-lime-400 rounded-lg w-[20vw] h-[40px]"
+                      style={{ minWidth: "210px" }}
                       type="file"
                       accept=".jpg, .jpeg, .png"
                       onChange={(e) => setImg(e.target.files[0])}

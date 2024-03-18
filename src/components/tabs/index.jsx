@@ -1,24 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-// import { MdNightlight } from "react-icons/md";
-// import NightMode from "../night-mode";
-// import Switch from "react-switch";
 
 export default function Tabs() {
   const [selected, setSelected] = useState(1);
-  // const [theme, setTheme] = NightMode("theme", "dark");
 
-  // function handleNightModeChange() {
-  //   setTheme(theme === "light" ? "dark" : "light");
-  //   console.log(theme);
-  // }
   return (
     <div className="w-full">
-      {/* <div className="float-right mr-5 mt-5 flex flex-row">
-        {" "}
-        <MdNightlight className="w-[30px] h-[30px]" />
-        <Switch onChange={() => handleNightModeChange()} />
-      </div> */}
       <div className="w-full">
         <nav className="flex items-left h-20 max-w-6xl w-full">
           <Link to="/">

@@ -93,8 +93,11 @@ export default function ViewCard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-row m-10 justify-self-center">
-        <div className="night-mode-container flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6">
+      <div className="flex flex-col lg:flex-row m-10 justify-self-center">
+        <div
+          className="night-mode-container flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6"
+          style={{ minWidth: "200px" }}
+        >
           <ul className="text-center space-y-3 mb-3">
             <li className="font-semibold text-center">FlashCards</li>
             <hr className="h-[4px] color-lime-400 bg-lime-400" />
@@ -117,7 +120,7 @@ export default function ViewCard() {
           </ul>
         </div>
         <div className="flex flex-col justify-center items-center">
-          <div className="night-mode-container flex flex-col justify-center  shadow-lg bg-lime-200 gap-2 w-[700px] h-[400px] ml-5 rounded-xl">
+          <div className="night-mode-container flex flex-col justify-center  shadow-lg bg-lime-200 gap-2 w-[500px] md:w-[700px] h-[400px] ml-5 rounded-xl">
             {cardData?.map((item) => {
               if (item.id === selectedId) {
                 return (
@@ -130,6 +133,7 @@ export default function ViewCard() {
                         <img
                           src={item.img}
                           className="w-[20vw] h-[200px] rounded-lg"
+                          style={{ minWidth: "145px" }}
                         />
                       ) : null}
 

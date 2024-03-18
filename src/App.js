@@ -20,19 +20,21 @@ export default function App() {
   function handleNightModeChange() {
     setTheme(theme === "light" ? "dark" : "light");
     setChecked(!checked);
-   
+
     console.log(theme);
   }
   return (
     <div data-theme={theme} className="light-dark-mode">
-      <div className="float-right mr-5 mt-5 flex flex-row">
-        {" "}
-        <MdNightlight className="w-[30px] h-[30px]" />
-        <Switch onChange={() => handleNightModeChange()} checked={checked} />
+      <div className="flex flex-row">
+        <Tabs />
+        <div className="float-right mr-5 mt-5 flex flex-row ">
+          {" "}
+          <MdNightlight className="w-[30px] h-[30px]" />
+          <Switch onChange={() => handleNightModeChange()} checked={checked} />
+        </div>
+
+        {/* <Tabs /> */}
       </div>
-
-      <Tabs />
-
       <Routes>
         <Route path="/" element={<CreateFlashcards />} />
         <Route path="/my-flashcards" element={<MyFlashcards />} />
