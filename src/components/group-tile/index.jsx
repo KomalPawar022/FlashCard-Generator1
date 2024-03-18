@@ -1,5 +1,15 @@
 import { Link } from "react-router-dom";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { removeGroup } from "../../store/slices/group-slice";
+import { removeAll } from "../../store/slices/card-slice";
 export default function GroupTile({ group, description, noOfCards, groupImg }) {
+  const dispatch = useDispatch();
+  function handleDeleteCard(e) {
+    e.preventDefault();
+    dispatch(removeGroup(group));
+    dispatch(removeAll(group));
+  }
   return (
     <>
       <div className="group flex flex-col justify-center items-center border-2 border-lime-300 gap-1 p-4 h-[360px] mt-10 ml-5 rounded-xl">
@@ -19,9 +29,13 @@ export default function GroupTile({ group, description, noOfCards, groupImg }) {
             {noOfCards} {noOfCards === 1 ? "Card" : "Cards"}
           </p>
         </div>
-        <div className="flex p-3">
+        <div className="flex p-3 flex-row space-x-2">
           <button className="border border-lime-600 rounded-lg w-[15vw] h-[40px] text-lime-600">
             <Link to={`/view-card/:${group}`}>View Cards</Link>
+          </button>
+
+          <button onClick={(e) => handleDeleteCard(e)}>
+            <RiDeleteBin5Line className="h-[30px] w-[30px]" />
           </button>
         </div>
       </div>

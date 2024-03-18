@@ -130,51 +130,52 @@ export default function CreateFlashcards() {
 
   function handleSaveGroup(e) {
     e.preventDefault();
+    if (group != null) {
+      handleSaveCard(e);
 
-    handleSaveCard(e);
-    console.log("term", term.length);
-    let noOfcards;
-    if (term != null && term.length > 0) {
-      noOfcards = counter;
-    } else {
-      noOfcards = counter - 1;
-    }
-
-    const reader = new FileReader();
-    let url = null;
-    if (groupImg != null) {
-      reader.readAsDataURL(groupImg);
-
-      reader.addEventListener("load", () => {
-        url = reader.result;
-        console.log("in eventListener", url);
-      });
-    }
-
-    setTimeout(() => {
-      if (!groupExists) {
-        const groupData = {
-          group: group,
-          description: description,
-          noOfCards: noOfcards,
-          groupImg: url,
-        };
-        dispatch(addGroup(groupData));
+      let noOfcards;
+      if (term != null && term.length > 0) {
+        noOfcards = counter;
       } else {
-        const groupData = {
-          group: group,
-          noOfCards: noOfcards,
-        };
-        console.log("groupData", groupData);
-        dispatch(changeNoOfCards(groupData));
-        dispatch(adjustIds(group));
-      }
-      if (hasDeleted) {
-        dispatch(adjustIds(group));
+        noOfcards = counter - 1;
       }
 
-      setShowModal(true);
-    }, 3000);
+      const reader = new FileReader();
+      let url = null;
+      if (groupImg != null) {
+        reader.readAsDataURL(groupImg);
+
+        reader.addEventListener("load", () => {
+          url = reader.result;
+          console.log("in eventListener", url);
+        });
+      }
+
+      setTimeout(() => {
+        if (!groupExists) {
+          const groupData = {
+            group: group,
+            description: description,
+            noOfCards: noOfcards,
+            groupImg: url,
+          };
+          dispatch(addGroup(groupData));
+        } else {
+          const groupData = {
+            group: group,
+            noOfCards: noOfcards,
+          };
+          console.log("groupData", groupData);
+          dispatch(changeNoOfCards(groupData));
+          dispatch(adjustIds(group));
+        }
+        if (hasDeleted) {
+          dispatch(adjustIds(group));
+        }
+
+        setShowModal(true);
+      }, 3000);
+    }
   }
 
   return (

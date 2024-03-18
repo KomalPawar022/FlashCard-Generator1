@@ -55,6 +55,11 @@ const cardSlice = createSlice({
 
       localStorage.setItem("cards", JSON.stringify(state));
     },
+    removeAll(state, action) {
+      let temp = state.filter((item) => item.group != action.payload);
+      localStorage.setItem("cards", JSON.stringify(temp));
+      return temp;
+    },
   },
 });
 export const {
@@ -64,5 +69,6 @@ export const {
   editTerm,
   editDefinition,
   editImg,
+  removeAll,
 } = cardSlice.actions;
 export default cardSlice.reducer;
