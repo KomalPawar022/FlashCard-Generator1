@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { FiArrowRightCircle } from "react-icons/fi";
 import { FaRegShareFromSquare } from "react-icons/fa6";
@@ -12,22 +12,24 @@ import { PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
 import PDFComponent from "../components/pdf-component";
 
 export default function ViewCard() {
-  let { group } = useParams();
-  group = group.substring(1, group.length);
-  const { cardGroup } = useSelector((state) => state);
+  let { group } = useParams(); //To get URL parameters :- To know which group is selected
+  group = group.substring(1, group.length); //to remove : from the URL
+  //For Example it returns :Group1, it should be just Group1
+  const { cardGroup } = useSelector((state) => state); //To retrieve the saved Groups
   const [groupName, setGroupName] = useState(null);
   const [groupDesc, setGroupDesc] = useState(null);
   const [noOfCards, setNoOfCards] = useState(0);
   const [groupImg, setGroupImg] = useState(null);
-  const { card } = useSelector((state) => state);
+  // The above states will be set to the selected Group info from the retrieved saved Groups
+  const { card } = useSelector((state) => state); //To retrieve the saved Cards
   const [selectedId, setSelectedId] = useState(1);
-  const [cardData, setCardData] = useState([]);
-  const pdfRef = useRef(null);
+  const [cardData, setCardData] = useState([]); //to extract all the cards that have group as the selected group
 
   function handleOnClick(item) {
     setSelectedId(item.id);
   }
 
+  //To set the Group Information
   useEffect(() => {
     if (cardGroup.length > 0) {
       cardGroup.map((item) => {
@@ -40,6 +42,8 @@ export default function ViewCard() {
       });
     }
   }, []);
+
+  //After the Group Information is set the cards data is set
   useEffect(() => {
     let arr = [];
     if (card.length > 0) {
@@ -52,6 +56,7 @@ export default function ViewCard() {
     }
   }, [groupName]);
 
+  //for carousal effect
   function handleLeftClick() {
     if (selectedId === 1) {
       setSelectedId(noOfCards);
@@ -59,7 +64,7 @@ export default function ViewCard() {
       setSelectedId(selectedId - 1);
     }
   }
-
+  //for carousal effect
   function handleRightClick() {
     if (selectedId === noOfCards) {
       setSelectedId(1);
@@ -70,11 +75,11 @@ export default function ViewCard() {
 
   return (
     <div>
-      <div className="flex flex-row" ref={pdfRef}>
+      <div className="flex flex-row">
         <Link to="/my-flashcards">
           <FaArrowAltCircleLeft className="h-[30px] w-[30px] ml-5 cursor-pointer" />
         </Link>
-        {/* npm install react-pdf jsPDF jsdom html2canvas */}
+
         <div className="flex flex-col text-bold justify-left items-start ml-8 mb-5">
           <h1 className="font-bold text-2xl">{groupName}</h1>
           <div className="flex flex-col sm:flex-row  sm:items-center justify-center">
@@ -121,7 +126,7 @@ export default function ViewCard() {
               })}
             </ul>
           </div>
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <div className="night-mode-container flex flex-col justify-center flex-shrink  shadow-lg bg-lime-200 gap-2 w-[300px] md:w-[500px] lg:w-[600px] xl:w-[700px] h-[400px] ml-5 rounded-xl mt-5">
               {cardData?.map((item) => {
                 if (item.id === selectedId) {
@@ -165,6 +170,7 @@ export default function ViewCard() {
             </div>
           </div>
         </div>
+        {/* ---Buttons--- */}
         <div className="night-mode-container flex flex-col  h-[200px] m-5 gap-3">
           <RWebShare
             data={{

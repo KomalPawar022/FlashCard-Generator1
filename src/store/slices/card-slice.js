@@ -1,5 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//Card is saved as:-
+//Card {
+//   id,
+//   term,
+//   definition,
+//   img,
+//   group
+// }
+
+//Note that Cards are not saved within the Group they are stored separately
+//They are bound by groupName
+
+//To extract saved cards from localStorage
 const initialState = () => {
   if (localStorage.getItem("cards")) {
     return JSON.parse(localStorage.getItem("cards"));
@@ -11,7 +24,6 @@ const cardSlice = createSlice({
   reducers: {
     addCard(state, action) {
       state.push(action.payload);
-
       localStorage.setItem("cards", JSON.stringify(state));
     },
 
@@ -20,6 +32,8 @@ const cardSlice = createSlice({
       localStorage.setItem("cards", JSON.stringify(temp));
       return temp;
     },
+
+    //If a card in between is deleted to serially arrange the Ids
     adjustIds(state, action) {
       let index = 1;
       state.map((item) => {
@@ -55,6 +69,7 @@ const cardSlice = createSlice({
 
       localStorage.setItem("cards", JSON.stringify(state));
     },
+    //When a group is deleted all the cards bound to it are deleted
     removeAll(state, action) {
       let temp = state.filter((item) => item.group != action.payload);
       localStorage.setItem("cards", JSON.stringify(temp));

@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+//Group is saved as:-
+// Group{
+//   group,
+//   description,
+//   groupImg,
+//   noOfCards,
+// }
 
+//To extract saved Groups from localStorage
 const initialState = () => {
   if (localStorage.getItem("groups")) {
     return JSON.parse(localStorage.getItem("groups"));
@@ -18,6 +26,7 @@ const groupSlice = createSlice({
       localStorage.setItem("groups", JSON.stringify(temp));
       return temp;
     },
+    //When new cards are added
     changeNoOfCards(state, action) {
       state.map((item) => {
         if (item.group === action.payload.group) {

@@ -16,21 +16,22 @@ import Modal from "../components/modal";
 
 export default function CreateFlashcards() {
   const dispatch = useDispatch();
-  const { cardGroup } = useSelector((state) => state);
-  const { card } = useSelector((state) => state);
+  const { cardGroup } = useSelector((state) => state); //Retrieves all the saved Groups
+  const { card } = useSelector((state) => state); //Retrieves all the saved Cards
   const [group, setGroup] = useState(null);
   const [description, setDescription] = useState("");
   const [groupImg, setGroupImg] = useState(null);
   const [term, setTerm] = useState("");
   const [def, setDef] = useState("");
   const [img, setImg] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [counter, setCounter] = useState(1);
-  const [hasDeleted, setHasDeleted] = useState(false);
+  const [showModal, setShowModal] = useState(false); //when the group is saved
+  const [counter, setCounter] = useState(1); // For Id of Card
+  const [hasDeleted, setHasDeleted] = useState(false); //To adjust the Ids
   const [groupExists, setGroupExists] = useState(false);
-  const [editCardId, setEditCardId] = useState(0);
-  const [warningMsg, setWarningMsg] = useState("");
+  const [editCardId, setEditCardId] = useState(0); //To enable and disable the inputs
+  const [warningMsg, setWarningMsg] = useState(""); // For duplicate or empty values
 
+  // Everytime a warning is displayed it will be reset to "" after 3 secs
   useEffect(() => {
     if (warningMsg.length > 0) {
       setTimeout(() => {
@@ -39,6 +40,7 @@ export default function CreateFlashcards() {
     }
   }, [warningMsg]);
 
+  //To set the Term "" if it already exists
   useEffect(() => {
     if (card != null && card.length > 0) {
       card.map((item) => {
@@ -50,6 +52,7 @@ export default function CreateFlashcards() {
     }
   }, [term]);
 
+  //To convert the Object file of image to URL
   async function handlesetImg(img, groupOrCard) {
     let url;
     const reader = new FileReader();
@@ -58,41 +61,44 @@ export default function CreateFlashcards() {
 
       reader.addEventListener("load", () => {
         url = reader.result;
+        //To use the same function for group Image as well as term image
         if (groupOrCard === "group") setGroupImg(url);
         else setImg(url);
       });
     }
   }
 
+  //To enable and disable the inputs
   function handleEditCard(e, item) {
     e.preventDefault();
-
     setEditCardId(item.id);
   }
 
   function handleGroupName(event) {
     setGroup(event.target.value);
-
     if (cardGroup) {
       let flag = false;
+      //If the group already exists it will show the saved details of that group
       cardGroup.map((item) => {
         if (item.group === event.target.value) {
           setDescription(item.description);
           setGroupImg(item.groupImg);
           setGroupExists(true);
           flag = true;
-          setCounter(item.noOfCards + 1);
+          setCounter(item.noOfCards + 1); //So if new card is added to the group appropriate Id is set to it
         }
       });
       if (!flag) {
+        //Resets everything if the group doesn't exist
         setDescription("");
         setGroupImg(null);
         setGroupExists(false);
-        setCounter(1);
+        setCounter(1); //If its a new group Id of first card will be 1
       }
     }
   }
 
+  //On clicking x
   function onClose() {
     setShowModal(false);
   }
@@ -101,12 +107,11 @@ export default function CreateFlashcards() {
     e.preventDefault();
     dispatch(removeCard(item.term));
     setCounter(counter - 1);
-    setHasDeleted(true);
+    setHasDeleted(true); //To adjust the IDs
   }
 
   function handleSaveCard(e) {
     e.preventDefault();
-
     if (term != null && term.length > 0) {
       if (def != null && def.length > 0) {
         const cardData = {
@@ -116,10 +121,9 @@ export default function CreateFlashcards() {
           group: group,
           img: img,
         };
+        //Resets everything after the card is saved
         setTerm("");
-
         setDef("");
-
         setImg(null);
         setCounter(counter + 1);
         dispatch(addCard(cardData));
@@ -129,21 +133,25 @@ export default function CreateFlashcards() {
     } else {
       setWarningMsg("The Card won't be saved");
     }
+    //The Card won't be saved if the Term or Definition is empty but the
+    //Group Details will be saved.
   }
 
   function handleSaveGroup(e) {
     e.preventDefault();
     if (group != null) {
-      handleSaveCard(e);
-
+      handleSaveCard(e); //To save the last card all previous cards are saved after clicking "Add More button"
       let noOfcards;
       if (term != null && term.length > 0 && def != null && def.length > 0) {
+        //If the last Card is not empty and create is clicked
         noOfcards = counter;
       } else {
+        //If last Card is empty and Create is clicked
         noOfcards = counter - 1;
       }
 
       if (!groupExists) {
+        //If the group doesn't already exist it will save the whole group
         const groupData = {
           group: group,
           description: description,
@@ -152,21 +160,25 @@ export default function CreateFlashcards() {
         };
         dispatch(addGroup(groupData));
       } else {
+        //If the Group already exists it will only update the No of Cards in it.
         const groupData = {
           group: group,
           noOfCards: noOfcards,
         };
 
         dispatch(changeNoOfCards(groupData));
-        dispatch(adjustIds(group));
+        dispatch(adjustIds(group)); //When new cards are added Ids will be adjusted to ensure there no mismatch
+        //Note that Id in a group is only for some display purposes in other pages
+        //and not to uniquely identify them
+        //The card's term is used to uniquely identify
       }
       if (hasDeleted) {
+        //If a card in between is deleted - to ensure the cards have serial Ids
         dispatch(adjustIds(group));
       }
-
-      setShowModal(true);
+      setShowModal(true); //To show that the Group is saved
     } else {
-      setWarningMsg("Please Enter Group Name");
+      setWarningMsg("Please Enter Group Name"); //If group Name is empty
     }
   }
 
@@ -202,7 +214,7 @@ export default function CreateFlashcards() {
                     : null}
                 </datalist>
               </div>
-
+              {/* Incase there is a Image it will be shown ar else the Browse button is shown */}
               <div className=" h-100 items-center">
                 {groupImg ? (
                   <div className="mt-3 sm:ml-5 justify-center">
@@ -264,7 +276,7 @@ export default function CreateFlashcards() {
                           className="w-[20vw] h-[40px] rounded-lg"
                           style={{ minWidth: "220px" }}
                           value={item.term}
-                          disabled={editCardId === item.id ? false : true}
+                          disabled={editCardId === item.id ? false : true} //If edit button is clicked inputs will be enabled else they will remain disabled
                           onChange={(e) => {
                             let flag = false;
                             if (card.length > 0) {
@@ -309,6 +321,8 @@ export default function CreateFlashcards() {
                     <div className="flex flex-row mt-5 mb-5 mr-5 sm:ml-5">
                       <div className=" h-100 items-center flex flex-row md:flex-col ml-5 md:ml-0">
                         <div className="space-y-2 flex flex-col">
+                          {/* In case Of image there are three cases  */}
+                          {/* 1) There is an image in the card or not */}
                           {item.img ? (
                             <div className="m-2 justify-center">
                               <img
@@ -318,7 +332,8 @@ export default function CreateFlashcards() {
                               />
                             </div>
                           ) : null}
-
+                          {/* 2) There is an image and it needs to be updated */}
+                          {/* 3) Or there is no image but needs to be added */}
                           {editCardId === item.id ? (
                             <div className="mt-5 inline-block">
                               <input
@@ -446,14 +461,7 @@ export default function CreateFlashcards() {
         >
           Create
         </button>
-        {showModal && (
-          <Modal
-            onClose={onClose}
-            body={<div>Data Saved</div>}
-            header={<div>null</div>}
-            footer={<div>null</div>}
-          />
-        )}
+        {showModal && <Modal onClose={onClose} body={<div>Data Saved</div>} />}
       </div>
     </div>
   );

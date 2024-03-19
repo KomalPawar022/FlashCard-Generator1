@@ -12,17 +12,18 @@ import { useState, useEffect } from "react";
 export default function App() {
   const [checked, setChecked] = useState(false);
   const [theme, setTheme] = NightMode("light");
+
   useEffect(() => {
+    //Because even after refreshing the page it will remember the theme
     if (theme === "light") setChecked(false);
     else setChecked(true);
-  
   }, []);
+
   function handleNightModeChange() {
     setTheme(theme === "light" ? "dark" : "light");
     setChecked(!checked);
-
-
   }
+
   return (
     <div data-theme={theme} className="light-dark-mode">
       <div className="flex flex-row">
@@ -32,8 +33,6 @@ export default function App() {
           <MdNightlight className="w-[30px] h-[30px]" />
           <Switch onChange={() => handleNightModeChange()} checked={checked} />
         </div>
-
-        {/* <Tabs /> */}
       </div>
       <Routes>
         <Route path="/" element={<CreateFlashcards />} />
