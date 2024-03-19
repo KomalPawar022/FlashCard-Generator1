@@ -44,16 +44,26 @@ Tailwind CSS Setup:
 	Follow setup instructions for integrating it into your React project. Refer to the Tailwind CSS documentation (https://tailwindcss.com/docs/installation) for detailed guidance.
 
 
-## Usage :
+## Usage 
 	
 	Build Flashcard Decks: Organize your study materials into groups for better categorization.
+
 	Intuitive Flashcard Creation: Easily add questions and answers to create individual flashcards.
+
 	Organize and Edit: Delete, edit, and rearrange flashcards within a group for optimal study flow.
+
 	Review Flashcards: Access a dedicated "View Flashcards" page for convenient review sessions.
+
 	Boost Collaboration: Share your flashcards with others for collaborative learning (future functionality).
+
 	Offline Access: Download your flashcards for studying without an internet connection.
+
 	Print for Flexibility: Print your flashcards for traditional paper-based learning.
+
 	Night Mode Support: Switch to night mode for comfortable studying during the night or in low-light conditions.
+
+## Deployment
+	https://flashcard-generator1.netlify.app/
 
 
 	
