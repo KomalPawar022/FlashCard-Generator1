@@ -7,6 +7,7 @@ import {
   Document,
   StyleSheet,
 } from "@react-pdf/renderer";
+import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({
   page: {
@@ -55,3 +56,9 @@ export default function PDFComponent({ groupName, groupDesc, groupImg, card }) {
     </Document>
   );
 }
+PDFComponent.propTypes = {
+  groupName: PropTypes.string.isRequired,
+  groupDesc: PropTypes.string.isRequired,
+  groupImg: PropTypes.string.isRequired,
+  card: PropTypes.array.isRequired,
+};

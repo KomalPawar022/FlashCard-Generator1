@@ -1,5 +1,6 @@
 //Modal that shows after the group is created
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 export default function Modal({ body, onClose }) {
   return (
     <div className=" night-mode-container z-1 fixed pt-[200px] top-0 left-0 w-full h-full justify-center items-center  bg-opacity-0 transition duration-150 ease-in-out">
@@ -23,3 +24,8 @@ export default function Modal({ body, onClose }) {
     </div>
   );
 }
+
+Modal.propTypes = {
+  body: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

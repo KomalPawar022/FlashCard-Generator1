@@ -1,5 +1,6 @@
 //For Groups on My Flascards Page
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { removeGroup } from "../../store/slices/group-slice";
@@ -49,3 +50,10 @@ export default function GroupTile({ group, description, noOfCards, groupImg }) {
     </>
   );
 }
+
+GroupTile.propTypes = {
+  group: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  noOfCards: PropTypes.number.isRequired,
+  groupImg: PropTypes.string.isRequired,
+};
