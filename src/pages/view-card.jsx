@@ -74,7 +74,7 @@ export default function ViewCard() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="flex flex-row">
         <Link to="/my-flashcards">
           <FaArrowAltCircleLeft className="h-[30px] w-[30px] ml-5 cursor-pointer" />

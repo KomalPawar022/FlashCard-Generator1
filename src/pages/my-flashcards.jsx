@@ -19,7 +19,9 @@ export default function MyFlashcards() {
           ))}
         </div>
       ) : (
-        <h1 className="text-xl font-bold text-center">No Groups</h1>
+        <div className="min-h-screen">
+          <h1 className="text-xl font-bold text-center">No Groups</h1>
+        </div>
       )}
     </div>
   );
