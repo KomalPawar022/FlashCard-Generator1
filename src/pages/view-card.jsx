@@ -78,9 +78,9 @@ export default function ViewCard() {
         {/* npm install react-pdf jsPDF jsdom html2canvas */}
         <div className="flex flex-col text-bold justify-left items-start ml-8 mb-5">
           <h1 className="font-bold text-2xl">{groupName}</h1>
-          <div className="flex flex-row items-center justify-center">
+          <div className="flex flex-col sm:flex-row  sm:items-center justify-center">
             <div className="w-auto ">
-              <h3 className="break-all">{groupDesc}</h3>
+              <h3 className=" pr-2">{groupDesc}</h3>
             </div>
             {groupImg ? (
               <div className="mt-3 ml-2 justify-center w-[200px] h-[100px] mr-5 float-right">
@@ -93,7 +93,9 @@ export default function ViewCard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row m-10 justify-self-center justify-center ">
+      <div className="border-2 border-gray-200 w-full h-[1px] mt-5 sm:invisible visible "></div>
+      {/* ----Cards------- */}
+      <div className="flex flex-col lg:flex-row justify-self-center m-10 justify-center ">
         <div className="flex flex-col sm:flex-row">
           <div
             className="night-mode-container flex flex-col justify-center shadow-lg bg-lime-200 gap-2 w-[200px] h-fit ml-5 rounded-xl mt-6"

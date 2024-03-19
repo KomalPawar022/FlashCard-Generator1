@@ -51,6 +51,22 @@ export default function CreateFlashcards() {
     }
   }, [term]);
 
+  async function handlesetImg(img, groupOrCard) {
+    let url;
+    const reader = new FileReader();
+    if (img != null) {
+      reader.readAsDataURL(img);
+
+      console.log("reader", reader);
+
+      reader.addEventListener("load", () => {
+        url = reader.result;
+        if (groupOrCard === "group") setGroupImg(url);
+        else setImg(url);
+      });
+    }
+  }
+
   function handleEditCard(e, item) {
     e.preventDefault();
     console.log(item);
@@ -97,34 +113,34 @@ export default function CreateFlashcards() {
 
     if (term != null && term.length > 0) {
       if (def != null && def.length > 0) {
-        let url = null;
-        const reader = new FileReader();
-        if (img != null) {
-          reader.readAsDataURL(img);
+        // let url = null;
+        // const reader = new FileReader();
+        // if (img != null) {
+        //   reader.readAsDataURL(img);
 
-          console.log("reader", reader);
+        //   console.log("reader", reader);
 
-          reader.addEventListener("load", () => {
-            url = reader.result;
-          });
-        }
+        //   reader.addEventListener("load", () => {
+        //     url = reader.result;
+        //   });
+        // }
 
-        setTimeout(() => {
-          const cardData = {
-            id: counter,
-            term: term,
-            definition: def,
-            group: group,
-            img: url,
-          };
-          setTerm("");
+        // setTimeout(() => {
+        const cardData = {
+          id: counter,
+          term: term,
+          definition: def,
+          group: group,
+          img: img,
+        };
+        setTerm("");
 
-          setDef("");
+        setDef("");
 
-          setImg(null);
-          setCounter(counter + 1);
-          dispatch(addCard(cardData));
-        }, 3000);
+        setImg(null);
+        setCounter(counter + 1);
+        dispatch(addCard(cardData));
+        // }, 3000);
       } else {
         setWarningMsg("The Card won't be saved");
       }
@@ -145,41 +161,40 @@ export default function CreateFlashcards() {
         noOfcards = counter - 1;
       }
 
-      const reader = new FileReader();
-      let url = null;
-      if (groupImg != null) {
-        reader.readAsDataURL(groupImg);
+      // const reader = new FileReader();
+      // let url = null;
+      // if (groupImg != null) {
+      //   reader.readAsDataURL(groupImg);
 
-        reader.addEventListener("load", () => {
-          url = reader.result;
-          console.log("in eventListener", url);
-        });
+      //   reader.addEventListener("load", () => {
+      //     url = reader.result;
+      //   });
+      // }
+
+      // setTimeout(() => {
+      if (!groupExists) {
+        const groupData = {
+          group: group,
+          description: description,
+          noOfCards: noOfcards,
+          groupImg: groupImg,
+        };
+        dispatch(addGroup(groupData));
+      } else {
+        const groupData = {
+          group: group,
+          noOfCards: noOfcards,
+        };
+
+        dispatch(changeNoOfCards(groupData));
+        dispatch(adjustIds(group));
+      }
+      if (hasDeleted) {
+        dispatch(adjustIds(group));
       }
 
-      setTimeout(() => {
-        if (!groupExists) {
-          const groupData = {
-            group: group,
-            description: description,
-            noOfCards: noOfcards,
-            groupImg: url,
-          };
-          dispatch(addGroup(groupData));
-        } else {
-          const groupData = {
-            group: group,
-            noOfCards: noOfcards,
-          };
-          console.log("groupData", groupData);
-          dispatch(changeNoOfCards(groupData));
-          dispatch(adjustIds(group));
-        }
-        if (hasDeleted) {
-          dispatch(adjustIds(group));
-        }
-
-        setShowModal(true);
-      }, 3000);
+      setShowModal(true);
+      // }, 3000);
     } else {
       setWarningMsg("Please Enter Group Name");
     }
@@ -234,7 +249,7 @@ export default function CreateFlashcards() {
                       style={{ minWidth: "210px" }}
                       type="file"
                       accept=".jpg, .jpeg, .png"
-                      onChange={(e) => setGroupImg(e.target.files[0])}
+                      onChange={(e) => handlesetImg(e.target.files[0], "group")}
                     />
                   </div>
                 )}
@@ -433,7 +448,7 @@ export default function CreateFlashcards() {
                       style={{ minWidth: "210px" }}
                       type="file"
                       accept=".jpg, .jpeg, .png"
-                      onChange={(e) => setImg(e.target.files[0])}
+                      onChange={(e) => handlesetImg(e.target.files[0], "card")}
                     />
                   </div>
                 )}
