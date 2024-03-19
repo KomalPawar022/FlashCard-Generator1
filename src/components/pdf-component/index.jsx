@@ -1,3 +1,4 @@
+//Creates Pdf Document when Download or Print button is clicked
 import {
   Image,
   Text,
@@ -33,6 +34,7 @@ export default function PDFComponent({ groupName, groupDesc, groupImg, card }) {
           <Text> </Text>
         </View>
         <View className="flex flex-col space-y-3">
+          {/* ----To map all the cards within the Group----- */}
           {card?.map((item) => {
             return (
               <View key={item.id}>

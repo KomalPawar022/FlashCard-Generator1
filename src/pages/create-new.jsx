@@ -43,7 +43,6 @@ export default function CreateFlashcards() {
     if (card != null && card.length > 0) {
       card.map((item) => {
         if (item.term === term) {
-          console.log("Term Aready Exixts");
           setWarningMsg("The Term Already Exists");
           setTerm("");
         }
@@ -57,8 +56,6 @@ export default function CreateFlashcards() {
     if (img != null) {
       reader.readAsDataURL(img);
 
-      console.log("reader", reader);
-
       reader.addEventListener("load", () => {
         url = reader.result;
         if (groupOrCard === "group") setGroupImg(url);
@@ -69,7 +66,6 @@ export default function CreateFlashcards() {
 
   function handleEditCard(e, item) {
     e.preventDefault();
-    console.log(item);
 
     setEditCardId(item.id);
   }
@@ -113,19 +109,6 @@ export default function CreateFlashcards() {
 
     if (term != null && term.length > 0) {
       if (def != null && def.length > 0) {
-        // let url = null;
-        // const reader = new FileReader();
-        // if (img != null) {
-        //   reader.readAsDataURL(img);
-
-        //   console.log("reader", reader);
-
-        //   reader.addEventListener("load", () => {
-        //     url = reader.result;
-        //   });
-        // }
-
-        // setTimeout(() => {
         const cardData = {
           id: counter,
           term: term,
@@ -140,7 +123,6 @@ export default function CreateFlashcards() {
         setImg(null);
         setCounter(counter + 1);
         dispatch(addCard(cardData));
-        // }, 3000);
       } else {
         setWarningMsg("The Card won't be saved");
       }
@@ -161,17 +143,6 @@ export default function CreateFlashcards() {
         noOfcards = counter - 1;
       }
 
-      // const reader = new FileReader();
-      // let url = null;
-      // if (groupImg != null) {
-      //   reader.readAsDataURL(groupImg);
-
-      //   reader.addEventListener("load", () => {
-      //     url = reader.result;
-      //   });
-      // }
-
-      // setTimeout(() => {
       if (!groupExists) {
         const groupData = {
           group: group,
@@ -194,7 +165,6 @@ export default function CreateFlashcards() {
       }
 
       setShowModal(true);
-      // }, 3000);
     } else {
       setWarningMsg("Please Enter Group Name");
     }

@@ -1,3 +1,4 @@
+//For Groups on My Flascards Page
 import { Link } from "react-router-dom";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
@@ -7,8 +8,8 @@ export default function GroupTile({ group, description, noOfCards, groupImg }) {
   const dispatch = useDispatch();
   function handleDeleteCard(e) {
     e.preventDefault();
-    dispatch(removeGroup(group));
-    dispatch(removeAll(group));
+    dispatch(removeGroup(group)); //To delete the group
+    dispatch(removeAll(group)); //To delete all cards from the Group
   }
   return (
     <>

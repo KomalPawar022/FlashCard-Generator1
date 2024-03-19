@@ -32,7 +32,6 @@ export default function ViewCard() {
     if (cardGroup.length > 0) {
       cardGroup.map((item) => {
         if (item.group === group) {
-          console.log(item);
           setGroupName(item.group);
           setGroupDesc(item.description);
           setNoOfCards(item.noOfCards);
@@ -123,7 +122,7 @@ export default function ViewCard() {
             </ul>
           </div>
           <div className="flex flex-col ">
-            <div className="night-mode-container flex flex-col justify-center flex-shrink  shadow-lg bg-lime-200 gap-2 w-[400px] md:w-[500px] lg:w-[600px] xl:w-[700px] h-[400px] ml-5 rounded-xl mt-5">
+            <div className="night-mode-container flex flex-col justify-center flex-shrink  shadow-lg bg-lime-200 gap-2 w-[300px] md:w-[500px] lg:w-[600px] xl:w-[700px] h-[400px] ml-5 rounded-xl mt-5">
               {cardData?.map((item) => {
                 if (item.id === selectedId) {
                   return (

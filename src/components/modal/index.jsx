@@ -1,3 +1,4 @@
+//Modal that shows after the group is created
 import { Link } from "react-router-dom";
 export default function Modal({ body, onClose }) {
   return (
@@ -10,6 +11,7 @@ export default function Modal({ body, onClose }) {
             className="float-right text-2xl cursor-pointer mr-5"
           >
             <Link to="/my-flashcards">✖</Link>
+            {/* After clicking on close button My Flashcards page opens */}
           </span>
         </nav>
 

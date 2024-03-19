@@ -15,13 +15,13 @@ export default function App() {
   useEffect(() => {
     if (theme === "light") setChecked(false);
     else setChecked(true);
-    console.log(theme);
+  
   }, []);
   function handleNightModeChange() {
     setTheme(theme === "light" ? "dark" : "light");
     setChecked(!checked);
 
-    console.log(theme);
+
   }
   return (
     <div data-theme={theme} className="light-dark-mode">

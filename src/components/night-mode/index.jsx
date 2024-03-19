@@ -1,6 +1,8 @@
+//Custom hook to save the theme in localStorage
 import { useState, useEffect } from "react";
 
 export default function NightMode(key, defaultValue) {
+  // initially default theme will be light
   const [value, setValue] = useState(() => {
     let currentValue;
     try {
@@ -8,7 +10,6 @@ export default function NightMode(key, defaultValue) {
         localStorage.getItem(key) || String(defaultValue),
       );
     } catch (e) {
-      console.log(e);
       currentValue = defaultValue;
     }
     return currentValue;
