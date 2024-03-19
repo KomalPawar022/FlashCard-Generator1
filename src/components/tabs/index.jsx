@@ -12,15 +12,20 @@ export default function Tabs() {
           {/* ---Create FlashCard will also open home page that is 'Create New Flashcards'----- */}
           <Link to="/">
             <div className="ml-5 flex flex-row w-full">
-              <h1 className="mt-5 ml-1 font-bold text-xl sm:text-2xl md:text-3xl cursor-pointer tracking-wide inline-block">
-                Create FlashCard
-              </h1>
+              <div className="flex flex-col w-auto">
+                <h1 className="mt-5 ml-1 font-bold text-xl sm:text-2xl md:text-3xl cursor-pointer tracking-wide inline-block">
+                  Create FlashCard
+                </h1>
+                <h5 className="italic font-mono font-bold ml-2">
+                  Click, Create, Conquer...
+                </h5>
+              </div>
             </div>
           </Link>
         </nav>
       </div>
       <div>
-        <nav className="flex items-left h-20 max-w-6xl ml-1">
+        <nav className="flex items-left h-20 max-w-6xl ml-5">
           <ul className=" flex list-none items-center space-x-6 text-gray-800 font-semibold">
             <Link to="/">
               <li
