@@ -10,6 +10,7 @@
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@heroicons/react": "^2.1.1",
+    "@jest/globals": "^29.7.0",
     "@react-pdf/renderer": "^3.3.8",
     "@reduxjs/toolkit": "^2.2.1",
     "@testing-library/jest-dom": "^6.4.2",
@@ -29,7 +30,8 @@
     "react-share": "^5.1.0",
     "react-switch": "^7.0.0",
     "react-web-share": "^2.0.2",
-    "redux-toolkit": "^1.1.2"
+    "redux-toolkit": "^1.1.2",
+    "whatwg-encoding": "^3.1.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.21.11",
