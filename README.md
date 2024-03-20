@@ -36,7 +36,7 @@ Installation:
     Install dependencies:
         Run the following command to install all the required dependencies using npm:
 	
-	npm install react react-dom react-router-dom redux react-redux redux-toolkit react-pdf react-pdf-renderer @react-pdf/renderer @heroicons/react react-icons react-share react-web-share react-switch tailwindcss
+	npm install react react-dom react-router-dom redux react-redux redux-toolkit react-pdf react-pdf-renderer @react-pdf/renderer @heroicons/react react-icons react-share react-web-share react-switch tailwindcss @testing-library/react @testing-library/jest-dom @testing-library/user-event
 
 	This will download and install all the necessary libraries and their dependencies into your project's node_modules folder.
 
