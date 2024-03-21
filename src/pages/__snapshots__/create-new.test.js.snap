@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="flex flex-col justify-center items-center "
+  >
+    <div
+      class="text-xl font-bold animate-pulse text-red-800"
+    />
+    <div
+      class="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg"
+      style="min-width: 385px;"
+    >
+      <form>
+        <div
+          class="my-5 ml-5 "
+        >
+          <div
+            class="flex flex-col sm:flex-row"
+          >
+            <div>
+              <p
+                class="mb-2"
+              >
+                Create Group*
+              </p>
+              <input
+                class="w-[20vw] h-[40px] rounded-lg"
+                list="groupList"
+                required=""
+                style="min-width: 220px;"
+                type="select"
+                value=""
+              />
+              <datalist
+                id="groupList"
+              />
+            </div>
+            <div
+              class=" h-100 items-center"
+            >
+              <div
+                class="mt-8 sm:ml-5 inline-block "
+              >
+                <input
+                  accept=".jpg, .jpeg, .png"
+                  class="border  rounded-lg w-[20vw] h-[40px]"
+                  style="min-width: 210px;"
+                  type="file"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="my-5 ml-5"
+        >
+          <p
+            class="mb-2"
+          >
+            Add Description
+          </p>
+          <textarea
+            class="rounded-lg lg:w-[800px] h-[80px] md:w-[500px]"
+            style="min-width: 300px;"
+            type="text"
+          />
+        </div>
+      </form>
+    </div>
+    <div
+      class="night-mode-container bg-lime-200 flex flex-col  w-[80vw] rounded-lg shadow-lg mt-5"
+      style="min-width: 385px;"
+    >
+      <form>
+        <div
+          class="flex flex-col md:flex-row"
+        >
+          <div
+            class="mt-5 ml-5 h-[30px] w-[30px] bg-lime-400 rounded-full text-center"
+            style="min-width: 30px; min-height: 30px;"
+          />
+          <div
+            class="flex flex-col lg:flex-row"
+          >
+            <div
+              class="flex flex-col sm:flex-row"
+            >
+              <div
+                class="mt-5  inline-block ml-5"
+              >
+                <p
+                  class="mb-2"
+                >
+                  Enter Term*
+                </p>
+                <input
+                  class="w-[20vw] h-[40px] rounded-lg"
+                  required=""
+                  style="min-width: 220px;"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                class="mt-5 ml-5 inline-block"
+              >
+                <p
+                  class="mb-2"
+                >
+                  Enter Definition*
+                </p>
+                <textarea
+                  class="w-[20vw] h-[40px] rounded-lg"
+                  required=""
+                  style="min-width: 220px;"
+                  type="text"
+                />
+              </div>
+            </div>
+            <div
+              class="lg:mt-0 h-100 items-center"
+            >
+              <div
+                class="mt-5 lg:mt-12 ml-5 inline-block"
+              >
+                <input
+                  accept=".jpg, .jpeg, .png"
+                  class="border rounded-lg w-[20vw] h-[40px] mt-1"
+                  style="min-width: 210px;"
+                  type="file"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="my-3 ml-5"
+        >
+          <button
+            class="text-lime-400"
+            type="submit"
+          >
+            +Add More
+          </button>
+        </div>
+      </form>
+    </div>
+    <div
+      class="my-5 ml-5 items-end"
+    >
+      <button
+        class="border border-lime-400 rounded-lg w-[20vw] h-[40px] shadow-lg"
+        type="submit"
+      >
+        Create
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

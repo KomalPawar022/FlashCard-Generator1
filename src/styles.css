@@ -6,3 +6,26 @@
   font-family: sans-serif;
   text-align: center;
 }
+:root {
+  --background: #fff;
+  --text-primary: #000;
+}
+[data-theme="dark"] {
+  --background: #000;
+  --text-primary: #fff;
+  --button-bg: #fff;
+  --button-text: #000;
+  --text-black: #000;
+}
+.light-dark-mode {
+  background-color: var(--background);
+  color: var(--text-primary);
+
+  transition: all 0.5s;
+  align-items: center;
+  top: 0;
+}
+
+.night-mode-container {
+  color: var(--text-black);
+}
