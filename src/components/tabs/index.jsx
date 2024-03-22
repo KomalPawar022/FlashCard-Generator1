@@ -10,7 +10,7 @@ export default function Tabs() {
       <div className="w-full">
         <nav className="flex items-left h-20 max-w-6xl w-full">
           {/* ---Create FlashCard will also open home page that is 'Create New Flashcards'----- */}
-          <Link to="/" data-testId="home-link">
+          <Link to="/">
             <div className="ml-5 flex flex-row w-full">
               <div className="flex flex-col w-auto">
                 <h1 className="mt-5 ml-1 font-bold text-xl sm:text-2xl md:text-3xl cursor-pointer tracking-wide inline-block">

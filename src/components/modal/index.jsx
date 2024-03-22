@@ -11,7 +11,9 @@ export default function Modal({ body, onClose }) {
             onClick={onClose}
             className="night-mode-container float-right text-2xl cursor-pointer mr-5"
           >
-            <Link to="/my-flashcards">✖</Link>
+            <Link to="/my-flashcards" role="link">
+              ✖
+            </Link>
             {/* After clicking on close button My Flashcards page opens */}
           </span>
         </nav>

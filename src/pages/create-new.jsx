@@ -18,7 +18,7 @@ export default function CreateFlashcards() {
   const dispatch = useDispatch();
   const { cardGroup } = useSelector((state) => state); //Retrieves all the saved Groups
   const { card } = useSelector((state) => state); //Retrieves all the saved Cards
-  const [group, setGroup] = useState(null);
+  const [group, setGroup] = useState("");
   const [description, setDescription] = useState("");
   const [groupImg, setGroupImg] = useState(null);
   const [term, setTerm] = useState("");
