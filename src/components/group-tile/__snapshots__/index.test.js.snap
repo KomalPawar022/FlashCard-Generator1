@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="group flex flex-col justify-center items-center border-2 border-lime-300 gap-1 p-4 h-[360px] mt-10 ml-5 rounded-xl shadow-xl hover:scale-105 "
+    style="min-width: 320px;"
+  >
+    <div
+      class="rounded-full border border-lime-600 h-[100px] w-[100px] mt-3"
+    >
+      <img
+        class="w-[99px] h-[99px] rounded-full"
+        src="https://picsum.photos/200/300"
+      />
+    </div>
+    <div
+      class="flex p-1"
+    >
+      <h1
+        class="font-bold text-2xl"
+      >
+        Group1
+      </h1>
+    </div>
+    <div
+      class="flex p-1 flex-col space-y-1 justify-center items-center"
+    >
+      <p
+        class="w-full h-[70px] text-center break-all overflow-ellipsis overflow-hidden"
+      >
+        Description of Group1
+      </p>
+      <p>
+        3 Cards
+      </p>
+    </div>
+    <div
+      class="flex p-3 flex-row space-x-2"
+    >
+      <button
+        class="border border-lime-600 rounded-lg w-[15vw] h-[40px] text-lime-600 sm:min-w-[112px]"
+        style="min-width: 112px;"
+      >
+        <a
+          href="/view-card/:Group1"
+        >
+          View Cards
+        </a>
+      </button>
+      <button>
+        <svg
+          class="h-[30px] w-[30px]"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8ZM6 10V20H18V10H6ZM9 12H11V18H9V12ZM13 12H15V18H13V12ZM7 5V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V5H22V7H2V5H7ZM9 4V5H15V4H9Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

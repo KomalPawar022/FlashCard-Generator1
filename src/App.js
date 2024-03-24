@@ -15,12 +15,12 @@ export default function App() {
 
   useEffect(() => {
     //Because even after refreshing the page it will remember the theme
-    if (theme === "light") setChecked(false);
+    if (theme === "light" || theme === undefined) setChecked(false);
     else setChecked(true);
   }, []);
 
   function handleNightModeChange() {
-    setTheme(theme === "light" ? "dark" : "light");
+    setTheme(theme === "light" || theme === undefined ? "dark" : "light");
     setChecked(!checked);
   }
 
